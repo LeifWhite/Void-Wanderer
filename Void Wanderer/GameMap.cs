@@ -19,13 +19,13 @@ namespace Void_Wanderer
             {
                 "GGGGGGGGGGGGGGGGG",
                 "GAAAAAAAAAAAAAAAG",
-                "GAAAAAAAAAAAAAAAG",
-                "GAAAAAAAAAAAAAAAG",
-                "GAAAAAAAAAAAAAAAG",
-                "GAAAAAAAAAAAAAAAG",
-                "GAAAAAAAAAAAAAAAG",
-                "GAAAAAAAAAAAAAAAG",
-                "GAAAAAAAAAAAAAAAG",
+                "GAAAAAAAAAAAGAAAG",
+                "GAAAAGGAAAAAGAAAG",
+                "GAAAAAAAAAAGGGAAG",
+                "GAAAAAAGAAAAAAAAG",
+                "GAAAAAGGGAAAAAAAG",
+                "GAAAAAAAAAAGAAAAG",
+                "GAAAAAAAAAGGGAAAG",
                 "GGGGGGGGGGGGGGGGG"
             };
             for (int i = 0; i < tileMap.Length; i++)
