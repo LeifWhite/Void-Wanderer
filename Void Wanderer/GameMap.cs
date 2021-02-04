@@ -10,12 +10,12 @@ namespace Void_Wanderer
     public class GameMap
     {
         private Texture2D texture;
-        private string[] tileMap;
+        public string[] TileMap;
         public List<Block> Blocks;
         public GameMap()
         {
             Blocks = new List<Block>();
-            tileMap = new string[]
+            TileMap = new string[]
             {
                 "GGGGGGGGGGGGGGGGG",
                 "GAAAAAAAAAAAAAAAG",
@@ -28,11 +28,11 @@ namespace Void_Wanderer
                 "GAAAAAAAAAGGGAAAG",
                 "GGGGGGGGGGGGGGGGG"
             };
-            for (int i = 0; i < tileMap.Length; i++)
+            for (int i = 0; i < TileMap.Length; i++)
             {
-                for (int j = 0; j < tileMap[i].Length; j++)
+                for (int j = 0; j < TileMap[i].Length; j++)
                 {
-                    if (tileMap[i][j] == 'G')
+                    if (TileMap[i][j] == 'G')
                         Blocks.Add(new Block(new Vector2(j * 48, i * 48)));
                        
                 }

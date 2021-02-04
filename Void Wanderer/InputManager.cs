@@ -12,6 +12,7 @@ namespace Void_Wanderer
         KeyboardState priorKeyboardState;
         MouseState currentMouseState;
         MouseState priorMouseState;
+        public Vector2 MouseCoordinates => new Vector2(currentMouseState.X, currentMouseState.Y);
         /// <summary>
         /// Moves direction
         /// </summary>
@@ -39,16 +40,20 @@ namespace Void_Wanderer
                 TryJump = true;
             }
         }
-            public bool MouseClicked()
+        public bool MouseClicked()
         {
-            if(priorMouseState.LeftButton == ButtonState.Released && currentMouseState.LeftButton == ButtonState.Pressed)
+            if (currentMouseState.X > 0 && currentMouseState.Y > 0 && currentMouseState.X < 17 * 48 && currentMouseState.Y < 10 * 48)
             {
-                return true;
+                if (priorMouseState.LeftButton == ButtonState.Released && currentMouseState.LeftButton == ButtonState.Pressed)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
-            else
-            {
-                return false;
-            }
+            return false;
         }
     }
 }

@@ -62,18 +62,26 @@ namespace Void_Wanderer
             move.X = 0;
             inputManager.Update(gameTime);
             gameMap.Update(gameTime);
-            move.X = inputManager.Direction.X;
-            if(inputManager.TryJump && move.Y == 0)
+            if (rho.Teleporting)
             {
-                move.Y = -JUMPHEIGHT;
+                move.Y = 0.00001f;
             }
             else
             {
-                move.Y = MathHelper.Min(move.Y+0.3f, 6.5f);
-            }
+                move.X = inputManager.Direction.X;
+            
+                if (inputManager.TryJump && move.Y == 0)
+                {
+                    move.Y = -JUMPHEIGHT;
+                }
+                else
+                {
+                    move.Y = MathHelper.Min(move.Y + 0.3f, 6.5f);
+                }
+            
             projectedLocation.X = rho.Position.X + move.X;
             projectedLocation.Y = rho.Position.Y + move.Y;
-            if(rho.CurrentDirection == Direction.Still)
+            if(move.X==0)
             {
                 projectedLocation.X += 2.5f;
                 projectedLocation.Width = 24 * Rho.SIZESCALE;
@@ -96,6 +104,20 @@ namespace Void_Wanderer
             {
                 if(projectedLocation.CollidesWith(gameMap.Blocks[i].Bounds))
                 {
+                    if (projectedLocationY.CollidesWith(gameMap.Blocks[i].Bounds))
+                    {
+
+                        if (rho.Bounds.Top > gameMap.Blocks[i].Bounds.Bottom)
+                        {
+                            move.Y = 0.1f;
+                            rho.ForceMove(rho.Position.X, gameMap.Blocks[i].Bounds.Bottom + 0.1f);
+                        }
+                        else if (rho.Bounds.Bottom < gameMap.Blocks[i].Bounds.Top)
+                        {
+                            move.Y = 0;
+                            rho.ForceMove(rho.Position.X, gameMap.Blocks[i].Bounds.Top - rho.Bounds.Height - 0.1f);
+                        }
+                    }
                     if (projectedLocationX.CollidesWith(gameMap.Blocks[i].Bounds))
                     {
                         move.X = 0;
@@ -108,25 +130,16 @@ namespace Void_Wanderer
                             rho.ForceMove(gameMap.Blocks[i].Bounds.Left-rho.Bounds.Width-0.1f, rho.Position.Y);
                         }
                     }
-                    if (projectedLocationY.CollidesWith(gameMap.Blocks[i].Bounds))
-                    {
-                        
-                        if (rho.Bounds.Top > gameMap.Blocks[i].Bounds.Bottom)
-                        {
-                            move.Y = 0.1f;
-                            rho.ForceMove(rho.Position.X, gameMap.Blocks[i].Bounds.Bottom + 0.1f);
-                        }
-                        else if(rho.Bounds.Bottom < gameMap.Blocks[i].Bounds.Top)
-                        {
-                            move.Y = 0;
-                            rho.ForceMove(rho.Position.X, gameMap.Blocks[i].Bounds.Top - rho.Bounds.Height-0.1f);
-                        }
-                    }
+                   
                         
                 }
             }
+            }
             rho.Update(gameTime, move);
-           
+            if (inputManager.MouseClicked())
+            {
+                rho.TryTeleport(inputManager.MouseCoordinates, gameMap.TileMap);
+            }
             base.Update(gameTime);
         }
 
@@ -141,10 +154,7 @@ namespace Void_Wanderer
             spriteBatch.End();
             base.Draw(gameTime);
         }
-        public void ModifyProjectedLocation()
-        {
-
-        }
+       
        
     }
 }

@@ -24,7 +24,12 @@ namespace Void_Wanderer
         private bool showHitbox = false;
         private double animationTimer;
         private short animationFrame = 0;
-        public const float SIZESCALE = 1.7f;
+        public const float SIZESCALE = 1.4f;
+        public bool Teleporting = false;
+        private short teleportationState = 0;
+        private double teleportationTimer;
+        private Vector2 teleportationCoordinates;
+        private double teleportationCooldown = 0;
         
         private Direction currentDirection;
         public Direction CurrentDirection => currentDirection;
@@ -51,6 +56,10 @@ namespace Void_Wanderer
         }
         public void Update(GameTime gameTime, Vector2 direction)
         {
+            if (teleportationCooldown > 0)
+            {
+                teleportationCooldown -= gameTime.ElapsedGameTime.TotalSeconds;
+            }
             if (direction.X > 0)
             {
                 currentDirection = Direction.Right;
@@ -78,6 +87,7 @@ namespace Void_Wanderer
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             animationTimer += gameTime.ElapsedGameTime.TotalSeconds;
+            
             if (animationTimer > 0.3)
             {
                 animationTimer -= 0.3;
@@ -86,11 +96,54 @@ namespace Void_Wanderer
                 {
                     animationFrame = 0;
                 }
+                
+                    
+                
+                
             }
-            var source = (currentDirection == Direction.Still) ? new Rectangle(89, 4, 24, 33) : new Rectangle(12+animationFrame*38, 4, 29, 33);
-            
-            SpriteEffects spriteEffects = (currentDirection==Direction.Left) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-            spriteBatch.Draw(texture, Position, source, Color.White, 0f, new Vector2((currentDirection == Direction.Still) ?-2.5f:0, 0), SIZESCALE, spriteEffects, 0);
+            if (Teleporting)
+            {
+                teleportationTimer += gameTime.ElapsedGameTime.TotalSeconds;
+                if (teleportationTimer > 0.13)
+                {
+                    teleportationTimer -= 0.13;
+                    teleportationState++;
+                    if (teleportationState == 3)
+                    {
+                        ForceMove(teleportationCoordinates);
+                    }
+                }
+               
+                
+            }
+                if (teleportationState == 0)
+            {
+                 var source = (currentDirection == Direction.Still) ? new Rectangle(89, 4, 24, 33) : new Rectangle(12 + animationFrame * 38, 4, 29, 33);
+
+                SpriteEffects spriteEffects = (currentDirection == Direction.Left) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+                spriteBatch.Draw(texture, Position, source, Color.White, 0f, new Vector2((currentDirection == Direction.Still) ? -2.5f : 0, 0), SIZESCALE, spriteEffects, 0);
+            }
+            else
+            {
+                Rectangle source;
+                if(teleportationState == 1 || teleportationState == 4)
+                {
+                    source =  new Rectangle(118, 3, 23, 33);
+                }
+                else if (teleportationState == 2 || teleportationState == 3)
+                {
+                    source = new Rectangle(148, 2, 24, 34);
+                }
+                else
+                {
+                    source = new Rectangle(118, 3, 23, 33);
+                    teleportationState = 0;
+                    Teleporting = false;
+                    teleportationTimer = 0;
+                    teleportationCooldown = 3;
+                }
+                spriteBatch.Draw(texture, Position, source, Color.White, 0f, new Vector2(-2.5f,  0), SIZESCALE, SpriteEffects.None, 0);
+            }
             if (showHitbox)
             {
                 var rectSource = new Rectangle(0, 0, (int)bounds.Width, (int)bounds.Height);
@@ -104,5 +157,24 @@ namespace Void_Wanderer
             bounds.Y = loc.Y;
         }
         public void ForceMove(float x, float y) => ForceMove(new Vector2(x, y));
+        public void TryTeleport(Vector2 destination, string[] tileMap)
+        {
+            if (teleportationCooldown > 0)
+            {
+                return;
+            }
+
+            //BoundingPoint p = new BoundingPoint(destination);
+            Vector2 tmIndexer = new Vector2((float)Math.Floor(destination.X/48), (float)Math.Floor(destination.Y/48));
+            if (tileMap[(int)tmIndexer.Y][(int)tmIndexer.X]=='A')
+            {
+                Teleport(tmIndexer.X*48+1, tmIndexer.Y*48+48-33*Rho.SIZESCALE-1);
+            }
+        }
+        public void Teleport(float x, float y)
+        {
+            Teleporting = true;
+            teleportationCoordinates = new Vector2(x, y);
+        }
     }
 }
