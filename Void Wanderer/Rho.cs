@@ -29,7 +29,7 @@ namespace Void_Wanderer
         private short teleportationState = 0;
         private double teleportationTimer;
         private Vector2 teleportationCoordinates;
-        private double teleportationCooldown = 0;
+        public double TeleportationCooldown = 0;
         
         private Direction currentDirection;
         public Direction CurrentDirection => currentDirection;
@@ -56,9 +56,9 @@ namespace Void_Wanderer
         }
         public void Update(GameTime gameTime, Vector2 direction)
         {
-            if (teleportationCooldown > 0)
+            if (TeleportationCooldown > 0)
             {
-                teleportationCooldown -= gameTime.ElapsedGameTime.TotalSeconds;
+                TeleportationCooldown -= gameTime.ElapsedGameTime.TotalSeconds;
             }
             if (direction.X > 0)
             {
@@ -140,7 +140,7 @@ namespace Void_Wanderer
                     teleportationState = 0;
                     Teleporting = false;
                     teleportationTimer = 0;
-                    teleportationCooldown = 3;
+                    TeleportationCooldown = 3;
                 }
                 spriteBatch.Draw(texture, Position, source, Color.White, 0f, new Vector2(-2.5f,  0), SIZESCALE, SpriteEffects.None, 0);
             }
@@ -159,7 +159,7 @@ namespace Void_Wanderer
         public void ForceMove(float x, float y) => ForceMove(new Vector2(x, y));
         public void TryTeleport(Vector2 destination, string[] tileMap)
         {
-            if (teleportationCooldown > 0)
+            if (TeleportationCooldown > 0)
             {
                 return;
             }
