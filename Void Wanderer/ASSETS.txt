@@ -8,8 +8,11 @@ Content/VW eye_closed - created by Elena White for making this game, released pr
 
 Content/VW eye_open - created by Elena White for making this game, released privately to be used in this game
 
-Content/VW rho - created by Leif White for making this game
+Content/VW play_button - created by Leif White for making this game
 
 Content/VW rho - created by Elena White for making this game, released privately to be used in this game
 
-Content/VW title_screen - created by Leif White for making this game
+Content/VW Square - created by Leif White for making this game
+
+Content/VW title_screen - created by Elena White for making this game, released privately to be used in this game
+
