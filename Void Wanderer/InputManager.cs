@@ -6,19 +6,32 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Void_Wanderer
 {
+    /// <summary>
+    /// This class was partially based off of the CIS 580 Input Management tutorial
+    /// </summary>
     public class InputManager
     {
         KeyboardState currentKeyboardState;
         KeyboardState priorKeyboardState;
         MouseState currentMouseState;
         MouseState priorMouseState;
+        /// <summary>
+        /// Where mouse at
+        /// </summary>
         public Vector2 MouseCoordinates => new Vector2(currentMouseState.X, currentMouseState.Y);
         /// <summary>
         /// Moves direction
         /// </summary>
         public Vector2 Direction { get; private set; }
+        /// <summary>
+        /// Attempts to jump
+        /// </summary>
         public bool TryJump;
         private float speed = 140;
+        /// <summary>
+        /// Updates input management
+        /// </summary>
+        /// <param name="gameTime"></param>
         public void Update(GameTime gameTime)
         {
             TryJump = false;
@@ -40,9 +53,13 @@ namespace Void_Wanderer
                 TryJump = true;
             }
         }
+       /// <summary>
+       /// has the mouse been clicked
+       /// </summary>
+       /// <returns></returns>
         public bool MouseClicked()
         {
-            if (currentMouseState.X > 0 && currentMouseState.Y > 0 && currentMouseState.X < 17 * 48 && currentMouseState.Y < 10 * 48)
+            if (currentMouseState.X > 0 && currentMouseState.Y > 0 && currentMouseState.X < 800 && currentMouseState.Y < 480)
             {
                 if (priorMouseState.LeftButton == ButtonState.Released && currentMouseState.LeftButton == ButtonState.Pressed)
                 {

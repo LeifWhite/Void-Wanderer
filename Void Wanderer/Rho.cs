@@ -24,14 +24,30 @@ namespace Void_Wanderer
         private bool showHitbox = false;
         private double animationTimer;
         private short animationFrame = 0;
+        /// <summary>
+        /// How big is Rho
+        /// </summary>
         public const float SIZESCALE = 1.4f;
+        /// <summary>
+        /// Is Rho teleporting
+        /// </summary>
         public bool Teleporting = false;
         private short teleportationState = 0;
         private double teleportationTimer;
         private Vector2 teleportationCoordinates;
-        public double TeleportationCooldown = 0;
-        
+        /// <summary>
+        /// How long til can teleport again
+        /// </summary>
+        public double TeleportationCooldown = 4;
+        private bool switchingLevels= false;
+        /// <summary>
+        /// Changes game room
+        /// </summary>
+        public bool UpdateNow = false;
         private Direction currentDirection;
+        /// <summary>
+        /// Which way facing
+        /// </summary>
         public Direction CurrentDirection => currentDirection;
         /// <summary>
         /// where go
@@ -39,9 +55,12 @@ namespace Void_Wanderer
         public Vector2 Position;
 
         private BoundingRectangle bounds = new BoundingRectangle(new Vector2(0,0), 29*SIZESCALE, 33*SIZESCALE);
+        /// <summary>
+        /// Bounds of Rho
+        /// </summary>
         public BoundingRectangle Bounds => bounds;
         /// <summary>
-        /// where find
+        /// loads content
         /// </summary>
         /// <param name="content"></param>
         public void LoadContent(ContentManager content)
@@ -54,6 +73,11 @@ namespace Void_Wanderer
             }
             
         }
+        /// <summary>
+        /// Updates rho
+        /// </summary>
+        /// <param name="gameTime"></param>
+        /// <param name="direction"></param>
         public void Update(GameTime gameTime, Vector2 direction)
         {
             if (TeleportationCooldown > 0)
@@ -80,7 +104,7 @@ namespace Void_Wanderer
         }
 
             /// <summary>
-            /// how look
+            /// how look, and runs teleport animation
             /// </summary>
             /// <param name="gameTime"></param>
             /// <param name="spriteBatch"></param>
@@ -110,8 +134,17 @@ namespace Void_Wanderer
                     teleportationState++;
                     if (teleportationState == 3)
                     {
-                        ForceMove(teleportationCoordinates);
+                        if(!switchingLevels)
+                            ForceMove(teleportationCoordinates);
+                        else
+                        {
+                            UpdateNow = true;
+                            switchingLevels = false;
+                        }
+
                     }
+
+                    
                 }
                
                 
@@ -150,13 +183,27 @@ namespace Void_Wanderer
 ;                spriteBatch.Draw(hitboxRectangle, new Vector2(bounds.X, bounds.Y), rectSource, new Color(Color.White,0.5f));
             }
         }
+       /// <summary>
+       /// moves rho and changes his boundaries
+       /// </summary>
+       /// <param name="loc"></param>
         public void ForceMove(Vector2 loc)
         {
             Position = loc;
             bounds.X = loc.X;
             bounds.Y = loc.Y;
         }
+        /// <summary>
+        /// alternate call style
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
         public void ForceMove(float x, float y) => ForceMove(new Vector2(x, y));
+        /// <summary>
+        /// tries to teleport to a destination
+        /// </summary>
+        /// <param name="destination"></param>
+        /// <param name="tileMap"></param>
         public void TryTeleport(Vector2 destination, string[] tileMap)
         {
             if (TeleportationCooldown > 0)
@@ -171,10 +218,28 @@ namespace Void_Wanderer
                 Teleport(tmIndexer.X*48+1, tmIndexer.Y*48+48-33*Rho.SIZESCALE-1);
             }
         }
+        /// <summary>
+        /// teleports to destination
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
         public void Teleport(float x, float y)
         {
             Teleporting = true;
             teleportationCoordinates = new Vector2(x, y);
+        }
+        /// <summary>
+        /// telepots to new room
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        public void SwitchTeleport(float x, float y)
+        {
+            Teleporting = true;
+            teleportationState = 0;
+            teleportationTimer = 0;
+            teleportationCoordinates = new Vector2(x, y);
+            switchingLevels = true;
         }
     }
 }

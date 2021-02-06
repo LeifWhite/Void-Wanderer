@@ -5,10 +5,24 @@ using Microsoft.Xna.Framework;
 
 namespace Void_Wanderer.Collisions
 {
+    /// <summary>
+    /// This class was modified from the CollisionExample tutorial in CIS 580
+    /// </summary>
     public struct BoundingCircle
     {
+        /// <summary>
+        /// center of circle
+        /// </summary>
         public Vector2 Center;
+        /// <summary>
+        /// radius of circle
+        /// </summary>
         public float Radius;
+        /// <summary>
+        /// constructor
+        /// </summary>
+        /// <param name="c"></param>
+        /// <param name="r"></param>
         public BoundingCircle(Vector2 c, float r)
         {
             Center = c;

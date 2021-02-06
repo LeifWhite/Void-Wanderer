@@ -15,34 +15,53 @@ namespace Void_Wanderer
     }
     public class VoidWandererGame : Game
     {
-       
+
+        private InputManager inputManager;
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
        // private InputManager inputManager;
         private Gameplay gameplay;
+        private Menu menu;
+        private GameState gameState = GameState.Menu;
+        private double currentRunSecs = 0;
+        private double bestRunSecs = -1;
+        /// <summary>
+        /// Constructor for game
+        /// </summary>
         public VoidWandererGame()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }
-
+        /// <summary>
+        /// Initializes game
+        /// </summary>
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
             gameplay = new Gameplay();
+            menu = new Menu();
+            inputManager = new InputManager();
             gameplay.Initialize();
+            menu.Initialize();
             base.Initialize();
         }
-
+        /// <summary>
+        /// loads content
+        /// </summary>
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
             gameplay.LoadContent(Content);
+            menu.LoadContent(Content);
         }
-
+        /// <summary>
+        /// updates game
+        /// </summary>
+        /// <param name="gameTime"></param>
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
@@ -50,13 +69,61 @@ namespace Void_Wanderer
 
 
             // TODO: Add your update logic here
-            gameplay.Update(gameTime);
+
+            switch (gameState)
+            {
+                case GameState.Menu:
+                    menu.Update(gameTime);
+                    inputManager.Update(gameTime);
+                    if (inputManager.MouseClicked())
+                    {
+                        if (inputManager.MouseCoordinates.X > 306 &&
+                            inputManager.MouseCoordinates.Y > 376 &&
+                            inputManager.MouseCoordinates.X < 494 &&
+                            inputManager.MouseCoordinates.Y < 442)
+                        {
+                            gameState = GameState.Game;
+                            if (menu.CurrentTime != -1)
+                            {
+                                gameplay = new Gameplay();
+                                gameplay.Initialize();
+                                gameplay.LoadContent(Content);
+
+                            }
+                            
+                        }
+                    }
+                    break;
+                case GameState.Game:
+                    currentRunSecs += gameTime.ElapsedGameTime.TotalSeconds;
+
+                    if (gameplay.RoomsCleared >= 5 && gameplay.Player.UpdateNow)
+                    {
+                        if (bestRunSecs < -0.5 || currentRunSecs < bestRunSecs)
+                        {
+                            bestRunSecs = currentRunSecs;
+                        }
+                        menu.CurrentTime = (int)currentRunSecs;
+                        menu.BestTime = (int)bestRunSecs;
+                        currentRunSecs = 0;
+                        gameState = GameState.Menu;
+                    }
+                    else
+                    {
+                        gameplay.Update(gameTime);
+                    }
+                    break;
+            }
+            
             base.Update(gameTime);
         }
-
+        /// <summary>
+        /// draws game
+        /// </summary>
+        /// <param name="gameTime"></param>
         protected override void Draw(GameTime gameTime)
         {
-            if (gameplay.Player.TeleportationCooldown == 0)
+            if (gameplay.Player.TeleportationCooldown == 0 || gameState != GameState.Game)
             {
                 GraphicsDevice.Clear(Color.Black);
             }
@@ -66,7 +133,15 @@ namespace Void_Wanderer
             }
             // TODO: Add your drawing code here
             spriteBatch.Begin();
-            gameplay.Draw(gameTime, spriteBatch);
+            switch (gameState)
+            {
+                case GameState.Menu:
+                    menu.Draw(gameTime, spriteBatch);
+                    break;
+                case GameState.Game:
+                    gameplay.Draw(gameTime, spriteBatch);
+                    break;
+            }
             spriteBatch.End();
             base.Draw(gameTime);
         }

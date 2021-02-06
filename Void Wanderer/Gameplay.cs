@@ -1,4 +1,7 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Void_Wanderer.Collisions;
@@ -8,27 +11,43 @@ using Microsoft.Xna.Framework.Content;
 
 namespace Void_Wanderer
 {
-   
+   /// <summary>
+   /// What happens during gameplay
+   /// </summary>
     public class Gameplay
     {
 
-        private GraphicsDeviceManager graphics;
-        private SpriteBatch spriteBatch;
+        
         private InputManager inputManager;
         private GameMap gameMap;
+        /// <summary>
+        /// player, his name is Rho
+        /// </summary>
         public Rho Player;
         private BoundingRectangle projectedLocation;
         private BoundingRectangle projectedLocationX;
         private BoundingRectangle projectedLocationY;
         private Vector2 move;
-
+        /// <summary>
+        /// How many coins have been collected
+        /// </summary>
+        public int CoinsCollected = 0;
+        /// <summary>
+        /// How many rooms have been cleared
+        /// </summary>
+        public int RoomsCleared = 0;
+        /// <summary>
+        /// How high you jump
+        /// </summary>
         private const int JUMPHEIGHT = 8;
        
-
+        /// <summary>
+        /// Initializes
+        /// </summary>
         public void Initialize()
         {
             // TODO: Add your initialization logic here
-            Player = new Rho() { Position = new Vector2(60, 257) };
+           
             projectedLocation = new BoundingRectangle();
             projectedLocation.Width = 29 * Rho.SIZESCALE;
             projectedLocation.Height = 33 * Rho.SIZESCALE;
@@ -40,10 +59,14 @@ namespace Void_Wanderer
             projectedLocationY.Height = 33 * Rho.SIZESCALE;
             move = Vector2.Zero;
             gameMap = new GameMap();
+            Player = new Rho() { Position = gameMap.RhoStartingPosition };
             inputManager = new InputManager();
            
         }
-
+        /// <summary>
+        /// Loads content
+        /// </summary>
+        /// <param name="content"></param>
        public void LoadContent(ContentManager content)
         {
             
@@ -51,10 +74,21 @@ namespace Void_Wanderer
             gameMap.LoadContent(content);
             
         }
-
+        /// <summary>
+        /// Updates game
+        /// </summary>
+        /// <param name="gameTime"></param>
         public void Update(GameTime gameTime)
         {
-            
+            if (Player.UpdateNow)
+            {
+
+                Player.UpdateNow = false;
+                
+                gameMap.Blocks = new List<Block>();
+                gameMap.PopulateTileMap();
+                Player.ForceMove(gameMap.RhoStartingPosition);
+            }
             // TODO: Add your update logic here
             move.X = 0;
             inputManager.Update(gameTime);
@@ -135,9 +169,11 @@ namespace Void_Wanderer
             Player.Update(gameTime, move);
             for (int i = 0; i < gameMap.Coins.Count; i++)
             {
-                if (Player.Bounds.CollidesWith(gameMap.Coins[i].Bounds))
+                if (!gameMap.Coins[i].IsCollected && Player.Bounds.CollidesWith(gameMap.Coins[i].Bounds) )
                 {
                     gameMap.Coins[i].IsCollected = true;
+                    CoinsCollected++;
+                   
                 }
             }
 
@@ -145,9 +181,33 @@ namespace Void_Wanderer
             {
                 Player.TryTeleport(inputManager.MouseCoordinates, gameMap.TileMap);
             }
-          
+            if (CoinsCollected >= gameMap.CoinCount && gameMap.CoinCount>=1)
+            {
+                CoinsCollected = 0;
+                RoomsCleared++;
+                NewRoom();
+            }
         }
-
+       /// <summary>
+       /// Creates new room
+       /// </summary>
+        public void NewRoom()
+        {
+            gameMap.Coins = new List<Coin>();
+            gameMap.CoinCount -=2;
+            if(gameMap.CoinCount!=0)
+                gameMap.RandomizeTileMap();
+            
+            Player.SwitchTeleport(gameMap.RhoStartingPosition.X, gameMap.RhoStartingPosition.Y);
+           
+           
+            
+        }
+       /// <summary>
+       /// Dras game
+       /// </summary>
+       /// <param name="gameTime"></param>
+       /// <param name="spriteBatch"></param>
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
 

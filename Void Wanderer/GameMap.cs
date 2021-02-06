@@ -7,13 +7,48 @@ using Microsoft.Xna.Framework.Content;
 
 namespace Void_Wanderer
 {
+    /// <summary>
+    /// Tile grid
+    /// </summary>
     public class GameMap
     {
+        /// <summary>
+        /// What block looks like
+        /// </summary>
         private Texture2D texture;
+        /// <summary>
+        /// Map of where blocks are
+        /// </summary>
         public string[] TileMap;
+        /// <summary>
+        /// List of blocks
+        /// </summary>
         public List<Block> Blocks;
+        /// <summary>
+        /// List of coins
+        /// </summary>
         public List<Coin> Coins;
-        private const int COINCOUNT = 10;
+        /// <summary>
+        /// Where Rho starts
+        /// </summary>
+        public Vector2 RhoStartingPosition;
+        private List<Vector2> possibleCoinLocations;
+        /// <summary>
+        /// How many coins are there?
+        /// </summary>
+        public int CoinCount = 10;
+        private int room = -1;
+        private Color[] colorMap = new Color[]
+        {
+            Color.White,
+            Color.SlateGray,
+            Color.Firebrick,
+            Color.Sienna,
+            Color.ForestGreen
+        };
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public GameMap()
         {
             Blocks = new List<Block>();
@@ -32,19 +67,43 @@ namespace Void_Wanderer
                 "GGGGGGGGGGGGGGGGG"
             };
             RandomizeTileMap();
+            PopulateTileMap();
+        }
+        /// <summary>
+        /// Generates coin and block lists
+        /// </summary>
+        public void PopulateTileMap()
+        {
             for (int i = 0; i < TileMap.Length; i++)
             {
                 for (int j = 0; j < TileMap[i].Length; j++)
                 {
                     if (TileMap[i][j] == 'G')
                         Blocks.Add(new Block(new Vector2(j * 48, i * 48)));
-                       
+
                 }
 
             }
+            var rand = new Random();
+            double r;
+           
+            for (int i = 0; i < possibleCoinLocations.Count; i++)
+            {
+
+
+                r = rand.NextDouble();
+                if (r < (float)(CoinCount - Coins.Count) / (possibleCoinLocations.Count - i))
+                {
+                    Coins.Add(new Coin(possibleCoinLocations[i] * 48 + new Vector2(6, 6), colorMap[Math.Min(room, 4)]));
+                }
+            }
         }
+       /// <summary>
+       /// Generates coin and block locations
+       /// </summary>
         public void RandomizeTileMap()
         {
+            room++;
             var rand = new Random();
             TileMap = new string[]
            {
@@ -116,7 +175,7 @@ namespace Void_Wanderer
                     }
                 }
             }
-            List<Vector2> possibleCoinLocations = new List<Vector2>();
+            possibleCoinLocations = new List<Vector2>();
             for (int i = 2; i < TileMap.Length; i++)
             {
                 for (int j = 1; j < TileMap[i].Length-1; j++)
@@ -128,25 +187,22 @@ namespace Void_Wanderer
 
                  }
             }
-
-            for(int i = 0; i < possibleCoinLocations.Count; i++)
-            {
-
-                r = rand.NextDouble();
-                if (r < (float)(COINCOUNT - Coins.Count) / (possibleCoinLocations.Count - i))
-                {
-                    Coins.Add(new Coin(possibleCoinLocations[i]*48+new Vector2(6,6)));
-                }
-            }
+            int ran = rand.Next(possibleCoinLocations.Count);
+            RhoStartingPosition = possibleCoinLocations[ran] * 48;
+            possibleCoinLocations.RemoveAt(ran);
         }
         /// <summary>
-        /// where find
+        /// Loads content
         /// </summary>
         /// <param name="content"></param>
         public void LoadContent(ContentManager content)
         {
             texture = content.Load<Texture2D>("colored_packed");
         }
+        /// <summary>
+        /// Updaates, not needed
+        /// </summary>
+        /// <param name="gameTime"></param>
         public void Update(GameTime gameTime)
         {
             

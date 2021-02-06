@@ -76,6 +76,12 @@ namespace Void_Wanderer.Collisions
             float nY = MathHelper.Clamp(c.Center.Y, r.Top, r.Bottom);
             return Math.Pow(c.Radius, 2) >= Math.Pow(c.Center.X - nX, 2) + Math.Pow(c.Center.Y - nY, 2);
         }
+        /// <summary>
+        /// Alternate call
+        /// </summary>
+        /// <param name="c"></param>
+        /// <param name="r"></param>
+        /// <returns></returns>
         public static bool Collides(BoundingCircle c, BoundingRectangle r) => Collides(r, c);
     }
 }

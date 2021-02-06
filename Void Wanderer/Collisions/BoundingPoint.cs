@@ -10,9 +10,19 @@ namespace Void_Wanderer.Collisions
     /// </summary>
     public struct BoundingPoint
     {
+        /// <summary>
+        /// X location
+        /// </summary>
         public float X;
+        /// <summary>
+        /// Y location
+        /// </summary>
         public float Y;
-        
+        /// <summary>
+        /// Construcotr 1
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
         public BoundingPoint(float x, float y)
         {
             X = x;
@@ -20,6 +30,10 @@ namespace Void_Wanderer.Collisions
            
 
         }
+        /// <summary>
+        /// Constructor 2
+        /// </summary>
+        /// <param name="position"></param>
         public BoundingPoint(Vector2 position)
         {
             X = position.X;

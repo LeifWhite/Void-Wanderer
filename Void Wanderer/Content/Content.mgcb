@@ -13,6 +13,20 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin arial.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:arial.spritefont
+
+#begin arial_small.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:arial_small.spritefont
+
 #begin colored_packed.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -25,17 +39,7 @@
 /processorParam:TextureFormat=Color
 /build:colored_packed.png
 
-#begin platformerGraphicsDeluxe_Updated.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=94,129,162,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:platformerGraphicsDeluxe_Updated.png
+
 
 #begin VW Circle.png
 /importer:TextureImporter
@@ -48,6 +52,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:VW Circle.png
+
+#begin VW Eye Open Close.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:VW Eye Open Close.png
 
 #begin VW eye_closed.png
 /importer:TextureImporter
@@ -72,6 +88,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:VW eye_open.png
+
+#begin VW play_button.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:VW play_button.png
 
 #begin VW rho.png
 /importer:TextureImporter

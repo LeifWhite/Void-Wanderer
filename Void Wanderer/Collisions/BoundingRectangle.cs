@@ -10,14 +10,46 @@ namespace Void_Wanderer.Collisions
     /// </summary>
     public struct BoundingRectangle
     {
+        /// <summary>
+        /// X location
+        /// </summary>
         public float X;
+        /// <summary>
+        /// Y location
+        /// </summary>
         public float Y;
+        /// <summary>
+        /// Width
+        /// </summary>
         public float Width;
+
+        /// <summary>
+        /// Height
+        /// </summary>
         public float Height;
+        /// <summary>
+        /// Left side
+        /// </summary>
         public float Left => X;
+        /// <summary>
+        /// Top side
+        /// </summary>
         public float Top => Y;
+        /// <summary>
+        /// Right side
+        /// </summary>
         public float Right => (X + Width);
+        /// <summary>
+        /// Bottom side
+        /// </summary>
         public float Bottom => (Y + Height);
+        /// <summary>
+        /// Constructor 1
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="w"></param>
+        /// <param name="h"></param>
         public BoundingRectangle(float x, float y, float w, float h)
         {
             X = x;
@@ -26,6 +58,12 @@ namespace Void_Wanderer.Collisions
             Height = h;
 
         }
+        /// <summary>
+        /// Constructor 2
+        /// </summary>
+        /// <param name="position"></param>
+        /// <param name="w"></param>
+        /// <param name="h"></param>
         public BoundingRectangle(Vector2 position, float w, float h)
         {
             X = position.X;
