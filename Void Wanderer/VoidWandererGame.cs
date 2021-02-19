@@ -139,7 +139,8 @@ namespace Void_Wanderer
                 GraphicsDevice.Clear(new Color((float)gameplay.Player.TeleportationCooldown/8, (float)gameplay.Player.TeleportationCooldown/16, (float)gameplay.Player.TeleportationCooldown/8));
             }
             // TODO: Add your drawing code here
-            spriteBatch.Begin();
+            //spriteBatch.Begin();
+            spriteBatch.Begin(SpriteSortMode.Immediate);
             switch (gameState)
             {
                 case GameState.Menu:

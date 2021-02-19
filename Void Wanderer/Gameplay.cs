@@ -52,6 +52,12 @@ namespace Void_Wanderer
         public Song BackgroundMusic;
 
         /// <summary>
+        /// Elapsed time
+        /// </summary>
+        public float CurrentTime;
+        private SpriteFont arial;
+        private Texture2D greySquare;
+        /// <summary>
         /// Initializes
         /// </summary>
         public void Initialize()
@@ -71,7 +77,7 @@ namespace Void_Wanderer
             gameMap = new GameMap();
             Player = new Rho() { Position = gameMap.RhoStartingPosition };
             inputManager = new InputManager();
-           
+            CurrentTime = 0;
         }
         /// <summary>
         /// Loads content
@@ -84,8 +90,8 @@ namespace Void_Wanderer
             gameMap.LoadContent(content);
             coinPickup = content.Load<SoundEffect>("Pickup_Coin15");
             BackgroundMusic = content.Load<Song>("Gamesong");
-            
-
+            arial = content.Load<SpriteFont>("arial");
+            greySquare = content.Load<Texture2D>("VW Grey Square");
         }
         /// <summary>
         /// Updates game
@@ -93,6 +99,7 @@ namespace Void_Wanderer
         /// <param name="gameTime"></param>
         public void Update(GameTime gameTime)
         {
+            CurrentTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (Player.UpdateNow)
             {
 
@@ -226,7 +233,11 @@ namespace Void_Wanderer
 
             gameMap.Draw(gameTime, spriteBatch);
             Player.Draw(gameTime, spriteBatch);
-
+            //spriteBatch.DrawString(arial, "Time", new Vector2(40, 390), Color.Silver);
+            //spriteBatch.DrawString(arial, "Time", new Vector2(41, 392), Color.White);
+            string csecs = (((int)CurrentTime % 60) <= 9) ? "0" + ((int)CurrentTime % 60).ToString() : ((int)CurrentTime % 60).ToString();
+            spriteBatch.DrawString(arial, Math.Floor((int)CurrentTime / 60.0).ToString() + ":" + csecs, new Vector2(40, 435), Color.Black);
+            spriteBatch.DrawString(arial, Math.Floor((int)CurrentTime / 60.0).ToString() + ":" + csecs, new Vector2(41, 437), Color.White);
         }
 
 
