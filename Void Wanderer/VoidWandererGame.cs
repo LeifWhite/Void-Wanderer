@@ -2,6 +2,8 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Void_Wanderer.Collisions;
+using Microsoft.Xna.Framework.Media;
+
 
 
 namespace Void_Wanderer
@@ -57,6 +59,8 @@ namespace Void_Wanderer
             // TODO: use this.Content to load your game content here
             gameplay.LoadContent(Content);
             menu.LoadContent(Content);
+            MediaPlayer.IsRepeating = true;
+            MediaPlayer.Play(menu.BackgroundMusic);
         }
         /// <summary>
         /// updates game
@@ -83,6 +87,8 @@ namespace Void_Wanderer
                             inputManager.MouseCoordinates.Y < 442)
                         {
                             gameState = GameState.Game;
+                            MediaPlayer.IsRepeating = true;
+                            MediaPlayer.Play(gameplay.BackgroundMusic);
                             if (menu.CurrentTime != -1)
                             {
                                 gameplay = new Gameplay();
@@ -107,6 +113,7 @@ namespace Void_Wanderer
                         menu.BestTime = (int)bestRunSecs;
                         currentRunSecs = 0;
                         gameState = GameState.Menu;
+                        MediaPlayer.Play(menu.BackgroundMusic);
                     }
                     else
                     {

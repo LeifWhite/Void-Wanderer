@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Void_Wanderer.Collisions;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Media;
 
 namespace Void_Wanderer
 {
@@ -31,9 +32,13 @@ namespace Void_Wanderer
         public int CurrentTime = -1;
         private SpriteFont arial;
         private SpriteFont arial_small;
-       /// <summary>
-       /// unused, initializes
-       /// </summary>
+        /// <summary>
+        /// Aim Low by Thomas White
+        /// </summary>
+        public Song BackgroundMusic;
+        /// <summary>
+        /// unused, initializes
+        /// </summary>
         public void Initialize()
         {
             // TODO: Add your initialization logic here
@@ -53,6 +58,8 @@ namespace Void_Wanderer
             playTexture = content.Load<Texture2D>("VW play_button");
             arial = content.Load<SpriteFont>("arial");
             arial_small = content.Load<SpriteFont>("arial_small");
+            BackgroundMusic = content.Load<Song>("Menusong");
+
 
         }
         /// <summary>

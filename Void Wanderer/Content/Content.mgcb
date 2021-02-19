@@ -39,7 +39,29 @@
 /processorParam:TextureFormat=Color
 /build:colored_packed.png
 
+#begin Gamesong.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Gamesong.mp3
 
+#begin Menusong.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Menusong.mp3
+
+#begin Pickup_Coin15.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Pickup_Coin15.wav
+
+#begin teleport.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:teleport.wav
 
 #begin VW Circle.png
 /importer:TextureImporter

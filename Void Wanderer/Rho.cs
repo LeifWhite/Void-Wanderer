@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using Void_Wanderer.Collisions;
+using Microsoft.Xna.Framework.Audio;
 
 namespace Void_Wanderer
 {
@@ -54,6 +55,7 @@ namespace Void_Wanderer
         /// </summary>
         public Vector2 Position;
 
+        private SoundEffect teleportSound;
         private BoundingRectangle bounds = new BoundingRectangle(new Vector2(0,0), 29*SIZESCALE, 33*SIZESCALE);
         /// <summary>
         /// Bounds of Rho
@@ -66,6 +68,7 @@ namespace Void_Wanderer
         public void LoadContent(ContentManager content)
         {
             texture = content.Load<Texture2D>("VW rho");
+            teleportSound = content.Load<SoundEffect>("teleport");
             if (showHitbox)
             {
                 hitboxCircle = content.Load<Texture2D>("VW Circle");
@@ -227,6 +230,8 @@ namespace Void_Wanderer
         {
             Teleporting = true;
             teleportationCoordinates = new Vector2(x, y);
+            teleportSound.Play(volume: 0.25f, pitch: -0.4f, pan: 0.0f);
+
         }
         /// <summary>
         /// telepots to new room
@@ -239,6 +244,8 @@ namespace Void_Wanderer
             teleportationState = 0;
             teleportationTimer = 0;
             teleportationCoordinates = new Vector2(x, y);
+            teleportSound.Play(volume: 0.25f, pitch: -0.4f, pan: 0.0f);
+
             switchingLevels = true;
         }
     }

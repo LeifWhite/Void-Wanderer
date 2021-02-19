@@ -16,3 +16,10 @@ Content/VW Square - created by Leif White for making this game
 
 Content/VW title_screen - created by Elena White for making this game, released privately to be used in this game
 
+Content/Gamesong - Title "Avenida de los Sueños" created by Thomas White for making this game, released privately to be used in this game
+
+Content/Menusong - Title "Aim Low" created by Thomas White for making this game, released privately to be used in this game
+
+Content/teleport - created by Sergenious and released under the creative commons attribution 3.0 license and distributed on freesound.org.  
+A link to the song can be found here: https://freesound.org/people/Sergenious/sounds/55853/
+A link to the attribution 3.0 licence can be found here https://creativecommons.org/licenses/by/3.0/legalcode

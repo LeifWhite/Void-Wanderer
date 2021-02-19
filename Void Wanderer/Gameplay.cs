@@ -6,6 +6,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Void_Wanderer.Collisions;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Media;
 
 
 
@@ -40,7 +42,15 @@ namespace Void_Wanderer
         /// How high you jump
         /// </summary>
         private const int JUMPHEIGHT = 8;
-       
+        /// <summary>
+        /// Sound effect when you get a coin
+        /// </summary>
+        private SoundEffect coinPickup;
+        /// <summary>
+        /// Avenida de los Sueños by Thomas White
+        /// </summary>
+        public Song BackgroundMusic;
+
         /// <summary>
         /// Initializes
         /// </summary>
@@ -72,7 +82,10 @@ namespace Void_Wanderer
             
             Player.LoadContent(content);
             gameMap.LoadContent(content);
+            coinPickup = content.Load<SoundEffect>("Pickup_Coin15");
+            BackgroundMusic = content.Load<Song>("Gamesong");
             
+
         }
         /// <summary>
         /// Updates game
@@ -173,7 +186,7 @@ namespace Void_Wanderer
                 {
                     gameMap.Coins[i].IsCollected = true;
                     CoinsCollected++;
-                   
+                    coinPickup.Play(volume: 0.25f, pitch: -0.4f, pan: 0.0f);
                 }
             }
 
