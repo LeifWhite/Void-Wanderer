@@ -11,7 +11,7 @@ namespace Void_Wanderer
     /// </summary>
     public class InputManager
     {
-        KeyboardState currentKeyboardState;
+        public KeyboardState currentKeyboardState;
         KeyboardState priorKeyboardState;
         MouseState currentMouseState;
         MouseState priorMouseState;

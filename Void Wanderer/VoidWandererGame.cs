@@ -14,10 +14,12 @@ namespace Void_Wanderer
         Game,
         GameOver
 
+
     }
     public class VoidWandererGame : Game
     {
-
+        private bool fading = false;
+        private GameState nextGameState;
         private InputManager inputManager;
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
@@ -87,6 +89,7 @@ namespace Void_Wanderer
                             inputManager.MouseCoordinates.Y < 442)
                         {
                             gameState = GameState.Game;
+                            fading = true;
                             MediaPlayer.IsRepeating = true;
                             MediaPlayer.Play(gameplay.BackgroundMusic);
                             if (menu.CurrentTime != -1)
@@ -101,23 +104,30 @@ namespace Void_Wanderer
                     }
                     break;
                 case GameState.Game:
-                    currentRunSecs += gameTime.ElapsedGameTime.TotalSeconds;
-
+                    //currentRunSecs += gameTime.ElapsedGameTime.TotalSeconds;
+                    
                     if (gameplay.RoomsCleared >= 5 && gameplay.Player.UpdateNow)
                     {
-                        if (bestRunSecs < -0.5 || currentRunSecs < bestRunSecs)
+                        if (bestRunSecs < -0.5 || gameplay.CurrentTime < bestRunSecs)
                         {
-                            bestRunSecs = currentRunSecs;
+                            bestRunSecs = gameplay.CurrentTime;
                         }
-                        menu.CurrentTime = (int)currentRunSecs;
+                        menu.CurrentTime = (int) gameplay.CurrentTime;
                         menu.BestTime = (int)bestRunSecs;
-                        currentRunSecs = 0;
+                        //currentRunSecs = 0;
                         gameState = GameState.Menu;
                         MediaPlayer.Play(menu.BackgroundMusic);
                     }
                     else
                     {
                         gameplay.Update(gameTime);
+                        //System.Diagnostics.Debug.WriteLine("moo");
+                        if (Keyboard.GetState().IsKeyDown(Keys.R))
+                        {
+                            //currentRunSecs = 0;
+                            gameState = GameState.Menu;
+                            MediaPlayer.Play(menu.BackgroundMusic);
+                        }
                     }
                     break;
             }
@@ -140,7 +150,7 @@ namespace Void_Wanderer
             }
             // TODO: Add your drawing code here
             //spriteBatch.Begin();
-            spriteBatch.Begin(SpriteSortMode.Immediate);
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
             switch (gameState)
             {
                 case GameState.Menu:

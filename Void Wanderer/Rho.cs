@@ -29,6 +29,7 @@ namespace Void_Wanderer
         /// How big is Rho
         /// </summary>
         public const float SIZESCALE = 1.4f;
+
         /// <summary>
         /// Is Rho teleporting
         /// </summary>
@@ -37,9 +38,14 @@ namespace Void_Wanderer
         private double teleportationTimer;
         private Vector2 teleportationCoordinates;
         /// <summary>
+        /// How long the cooldown is
+        /// </summary>
+        public double MAX_TELEPORTATION_COOLDOWN = 5;
+        /// <summary>
         /// How long til can teleport again
         /// </summary>
-        public double TeleportationCooldown = 4;
+        public double TeleportationCooldown = 5;
+       
         private bool switchingLevels= false;
         /// <summary>
         /// Changes game room
@@ -176,7 +182,7 @@ namespace Void_Wanderer
                     teleportationState = 0;
                     Teleporting = false;
                     teleportationTimer = 0;
-                    TeleportationCooldown = 3;
+                    TeleportationCooldown = MAX_TELEPORTATION_COOLDOWN;
                 }
                 spriteBatch.Draw(texture, Position, source, Color.White, 0f, new Vector2(-2.5f,  0), SIZESCALE, SpriteEffects.None, 0);
             }
