@@ -25,3 +25,5 @@ A link to the song can be found here: https://freesound.org/people/Sergenious/so
 A link to the attribution 3.0 licence can be found here https://creativecommons.org/licenses/by/3.0/legalcode
 
 Content/VW Grey Square - created by Leif White for making this game
+
+Content/Pickup_Coin15.wav - created by Nathan Bean for his audio tutorial with BXFR, released under public domain
