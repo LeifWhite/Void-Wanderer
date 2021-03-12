@@ -24,22 +24,13 @@ namespace Void_Wanderer
         /// </summary>
         public BoundingRectangle Bounds => bounds;
         private float scale = 1f;
+        private Rectangle source;
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="position"></param>
-        public Button(Vector2 position, Texture2D texture)
-        {
-            Position = position;
-            this.texture = texture;
-            bounds = new BoundingRectangle(new Vector2(0, 0), texture.Bounds.Width, texture.Bounds.Height);
-            
-            bounds.X = Position.X;
-            bounds.Y = Position.Y;
-            inputManager = new InputManager();
-
-        }
-        public Button(Vector2 position, Texture2D texture, float scale)
+        
+        public Button(Vector2 position, Texture2D texture, float scale=1f)
         {
             Position = position;
             this.texture = texture;
@@ -47,22 +38,38 @@ namespace Void_Wanderer
             bounds = new BoundingRectangle(new Vector2(0, 0), texture.Bounds.Width * this.scale, texture.Bounds.Height * this.scale);
             bounds.X = Position.X;
             bounds.Y = Position.Y;
-            
+            source = new Rectangle(0, 0, texture.Bounds.Width, texture.Bounds.Height);
             
             inputManager = new InputManager();
 
 
         }
+        public Button(Vector2 position, Texture2D texture, Rectangle source, float scale=1f)
+        {
+            Position = position;
+            this.texture = texture;
+            this.scale = scale;
+            this.source = source;
+            bounds = new BoundingRectangle(new Vector2(0, 0), source.Width * this.scale, source.Height * this.scale);
+            bounds.X = Position.X;
+            bounds.Y = Position.Y;
+
+
+            inputManager = new InputManager();
+
+
+        }
+       
         /// <summary>
         /// Draws block
         /// </summary>
         /// <param name="gameTime"></param>
         /// <param name="spriteBatch"></param>
         /// <param name="texture"></param>
-        public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        public void Draw(GameTime gameTime, SpriteBatch spriteBatch, float rotationSpeed=0)
         {
 
-            spriteBatch.Draw(texture, Position, null, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texture, Position, source, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
         }
         /// <summary>
         /// updates

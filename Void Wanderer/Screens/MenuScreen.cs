@@ -21,11 +21,13 @@ namespace Void_Wanderer
         private Texture2D texture;
         private Texture2D titleTexture;
         private Texture2D playTexture;
+        private Texture2D settingsTexture;
         private Color lilac = new Color(228, 199, 255);
         /// <summary>
         /// Begins game
         /// </summary>
         public Button PlayButton;
+        private Button SettingsButton;
         private double blinkTimer = 0;
         /// <summary>
         /// best time achieved
@@ -64,7 +66,9 @@ namespace Void_Wanderer
             arial = content.Load<SpriteFont>("arial");
             arial_small = content.Load<SpriteFont>("arial_small");
             BackgroundMusic = content.Load<Song>("Menusong");
+            settingsTexture = content.Load<Texture2D>("colored_packed");
 
+            SettingsButton = new Button(new Vector2(734, 10), settingsTexture, new Rectangle(45 * 16, 16 * 16, 16, 16), 3.5f);
             PlayButton = new Button(new Vector2(303, 370), playTexture, 2f);
 
         }
@@ -77,6 +81,7 @@ namespace Void_Wanderer
 
             // TODO: Add your update logic here
             PlayButton.Update(gameTime);
+            SettingsButton.Update(gameTime);
 
         }
         /// <summary>
@@ -98,6 +103,7 @@ namespace Void_Wanderer
                0f, new Vector2(0, 0), 2.5f, SpriteEffects.None, 0);
 
             PlayButton.Draw(gameTime, spriteBatch);
+            SettingsButton.Draw(gameTime, spriteBatch);
             if (CurrentTime != -1)
             {
                 spriteBatch.DrawString(arial, "Time", new Vector2(40, 390), Color.Silver);
