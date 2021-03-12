@@ -85,7 +85,7 @@ namespace Void_Wanderer
                             fading = true;
                             MediaPlayer.IsRepeating = true;
                             MediaPlayer.Play(gameplay.BackgroundMusic);
-                            if (menu.CurrentTime != -1)
+                            if (menu.CurrentTime != -1 || gameplay.CurrentTime!=-1)
                             {
                                 gameplay = new GameScreen();
                                 gameplay.Initialize();
@@ -117,6 +117,8 @@ namespace Void_Wanderer
                         //System.Diagnostics.Debug.WriteLine("moo");
                         if (Keyboard.GetState().IsKeyDown(Keys.R))
                         {
+                           
+                            
                             //currentRunSecs = 0;
                             gameState = GameState.Menu;
                             MediaPlayer.Play(menu.BackgroundMusic);

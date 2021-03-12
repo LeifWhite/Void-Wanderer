@@ -66,10 +66,11 @@ namespace Void_Wanderer
         /// <param name="gameTime"></param>
         /// <param name="spriteBatch"></param>
         /// <param name="texture"></param>
-        public void Draw(GameTime gameTime, SpriteBatch spriteBatch, float rotationSpeed=0)
+        public void Draw(GameTime gameTime, SpriteBatch spriteBatch, float rotation=0, Color? color = null)
         {
-
-            spriteBatch.Draw(texture, Position, source, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+            color = color ?? Color.White;
+            Vector2 centerRelative = new Vector2(source.Width / 2, source.Height / 2);
+            spriteBatch.Draw(texture, Position+centerRelative*2, source, (Color)color, rotation, centerRelative, scale, SpriteEffects.None, 0f);
         }
         /// <summary>
         /// updates
@@ -82,6 +83,10 @@ namespace Void_Wanderer
             inputManager.Update(gameTime);
 
         }
+        /// <summary>
+        /// Checks if button is clicked
+        /// </summary>
+        /// <returns></returns>
         public bool Clicked()
         {
             mouseLocation.X = inputManager.MouseCoordinates.X;
@@ -94,6 +99,17 @@ namespace Void_Wanderer
                 }
             }
             return false;
+        }
+        /// <summary>
+        /// Moves button boundary
+        /// </summary>
+        /// <param name="newPosition"></param>
+        /// <returns></returns>
+        public void MoveButtonBoundary(Vector2 newPosition)
+        {
+            bounds.X = newPosition.X;
+            bounds.Y = newPosition.Y;
+            //System.Diagnostics.Debug.WriteLine(bounds.Y);
         }
     }
 }
