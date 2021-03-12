@@ -16,7 +16,7 @@ namespace Void_Wanderer
    /// <summary>
    /// What happens during gameplay
    /// </summary>
-    public class Gameplay
+    public class GameScreen
     {
 
         

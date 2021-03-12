@@ -5,7 +5,6 @@ using Void_Wanderer.Collisions;
 using Microsoft.Xna.Framework.Media;
 
 
-
 namespace Void_Wanderer
 {
     public enum GameState
@@ -24,8 +23,8 @@ namespace Void_Wanderer
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
        // private InputManager inputManager;
-        private Gameplay gameplay;
-        private Menu menu;
+        private GameScreen gameplay;
+        private MenuScreen menu;
         private GameState gameState = GameState.Menu;
         private double currentRunSecs = 0;
         private double bestRunSecs = -1;
@@ -44,8 +43,8 @@ namespace Void_Wanderer
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            gameplay = new Gameplay();
-            menu = new Menu();
+            gameplay = new GameScreen();
+            menu = new MenuScreen();
             inputManager = new InputManager();
             gameplay.Initialize();
             menu.Initialize();
@@ -81,26 +80,20 @@ namespace Void_Wanderer
                 case GameState.Menu:
                     menu.Update(gameTime);
                     inputManager.Update(gameTime);
-                    if (inputManager.MouseClicked())
-                    {
-                        if (inputManager.MouseCoordinates.X > 306 &&
-                            inputManager.MouseCoordinates.Y > 376 &&
-                            inputManager.MouseCoordinates.X < 494 &&
-                            inputManager.MouseCoordinates.Y < 442)
-                        {
+                    if (menu.PlayButton.Clicked()) { 
                             gameState = GameState.Game;
                             fading = true;
                             MediaPlayer.IsRepeating = true;
                             MediaPlayer.Play(gameplay.BackgroundMusic);
                             if (menu.CurrentTime != -1)
                             {
-                                gameplay = new Gameplay();
+                                gameplay = new GameScreen();
                                 gameplay.Initialize();
                                 gameplay.LoadContent(Content);
 
                             }
                             
-                        }
+                        
                     }
                     break;
                 case GameState.Game:

@@ -13,7 +13,7 @@ namespace Void_Wanderer
     /// <summary>
     /// Menu screen
     /// </summary>
-    public class Menu
+    public class MenuScreen
     {
 
 
@@ -21,6 +21,11 @@ namespace Void_Wanderer
         private Texture2D texture;
         private Texture2D titleTexture;
         private Texture2D playTexture;
+        private Color lilac = new Color(228, 199, 255);
+        /// <summary>
+        /// Begins game
+        /// </summary>
+        public Button PlayButton;
         private double blinkTimer = 0;
         /// <summary>
         /// best time achieved
@@ -42,7 +47,7 @@ namespace Void_Wanderer
         public void Initialize()
         {
             // TODO: Add your initialization logic here
-
+           
             
 
         }
@@ -60,17 +65,18 @@ namespace Void_Wanderer
             arial_small = content.Load<SpriteFont>("arial_small");
             BackgroundMusic = content.Load<Song>("Menusong");
 
+            PlayButton = new Button(new Vector2(303, 370), playTexture, 2f);
 
         }
         /// <summary>
-        /// unused, updates
+        /// updates
         /// </summary>
         /// <param name="gameTime"></param>
         public void Update(GameTime gameTime)
         {
 
             // TODO: Add your update logic here
-            
+            PlayButton.Update(gameTime);
 
         }
         /// <summary>
@@ -91,22 +97,20 @@ namespace Void_Wanderer
               Color.White,
                0f, new Vector2(0, 0), 2.5f, SpriteEffects.None, 0);
 
-            spriteBatch.Draw(playTexture, new Vector2(300, 312), null,
-              Color.White,
-               0f, new Vector2(0, 0), 2f, SpriteEffects.None, 0);
+            PlayButton.Draw(gameTime, spriteBatch);
             if (CurrentTime != -1)
             {
                 spriteBatch.DrawString(arial, "Time", new Vector2(40, 390), Color.Silver);
-                spriteBatch.DrawString(arial, "Time", new Vector2(41, 392), Color.White);
+                spriteBatch.DrawString(arial, "Time", new Vector2(41, 392), lilac);
                 string csecs = ((CurrentTime % 60)<=9) ? "0"+ (CurrentTime % 60).ToString() : (CurrentTime % 60).ToString();
                 spriteBatch.DrawString(arial, Math.Floor(CurrentTime/60.0).ToString()+":"+csecs, new Vector2(40, 430), Color.Silver);
-                spriteBatch.DrawString(arial, Math.Floor(CurrentTime / 60.0).ToString() + ":" + csecs, new Vector2(41, 432), Color.White);
+                spriteBatch.DrawString(arial, Math.Floor(CurrentTime / 60.0).ToString() + ":" + csecs, new Vector2(41, 432), lilac);
 
                 spriteBatch.DrawString(arial, "Best", new Vector2(685, 390), Color.Silver);
-                spriteBatch.DrawString(arial, "Best", new Vector2(686, 392), Color.White);
+                spriteBatch.DrawString(arial, "Best", new Vector2(686, 392), lilac);
                 string bsecs = ((BestTime % 60) <= 9) ? "0" + (BestTime % 60).ToString() : (BestTime % 60).ToString();
                 spriteBatch.DrawString(arial, Math.Floor(BestTime / 60.0).ToString() + ":" +bsecs, new Vector2(685, 430), Color.Silver);
-                spriteBatch.DrawString(arial, Math.Floor(BestTime / 60.0).ToString() + ":" + bsecs, new Vector2(686, 432), Color.White);
+                spriteBatch.DrawString(arial, Math.Floor(BestTime / 60.0).ToString() + ":" + bsecs, new Vector2(686, 432), lilac);
 
             }
             else
