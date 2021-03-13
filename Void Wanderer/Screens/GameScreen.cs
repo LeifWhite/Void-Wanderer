@@ -50,13 +50,14 @@ namespace Void_Wanderer
         /// Avenida de los Sueños by Thomas White
         /// </summary>
         public Song BackgroundMusic;
-
+        private Texture2D[] backgrounds = new Texture2D[3];
         /// <summary>
         /// Elapsed time
         /// </summary>
         public float CurrentTime;
         private SpriteFont arial;
         private Texture2D greySquare;
+        private int currentBackground;
         /// <summary>
         /// Initializes
         /// </summary>
@@ -78,6 +79,9 @@ namespace Void_Wanderer
             Player = new Rho() { Position = gameMap.RhoStartingPosition };
             inputManager = new InputManager();
             CurrentTime = 0;
+            Random random = new Random();
+            currentBackground = random.Next(0, 3);
+            gameMap.Bnum = currentBackground;
         }
         /// <summary>
         /// Loads content
@@ -92,6 +96,9 @@ namespace Void_Wanderer
             BackgroundMusic = content.Load<Song>("Gamesong");
             arial = content.Load<SpriteFont>("arial");
             greySquare = content.Load<Texture2D>("VW Grey Square");
+            backgrounds[0] = content.Load<Texture2D>("VW Ginesha");
+            backgrounds[1] = content.Load<Texture2D>("VW New Gloucester");
+            backgrounds[2] = content.Load<Texture2D>("VW Onyet");
         }
         /// <summary>
         /// Updates game
@@ -106,6 +113,9 @@ namespace Void_Wanderer
                 Player.UpdateNow = false;
                 
                 gameMap.Blocks = new List<Block>();
+                Random random = new Random();
+                currentBackground = random.Next(0, 3);
+                gameMap.Bnum = currentBackground;
                 gameMap.PopulateTileMap();
                 Player.ForceMove(gameMap.RhoStartingPosition);
             }
@@ -231,16 +241,17 @@ namespace Void_Wanderer
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
 
+            spriteBatch.Draw(backgrounds[currentBackground], new Vector2(0, 0), null, Color.White, 0f, Vector2.Zero, 4, SpriteEffects.None, 0f);
             gameMap.Draw(gameTime, spriteBatch);
             Player.Draw(gameTime, spriteBatch);
             //spriteBatch.DrawString(arial, "Time", new Vector2(40, 390), Color.Silver);
             //spriteBatch.DrawString(arial, "Time", new Vector2(41, 392), Color.White);
-            spriteBatch.Draw(greySquare, new Vector2(360, 436), new Rectangle(0, 0, 10, 5), Color.White*0.95f, 0f, Vector2.Zero, 8, SpriteEffects.None, 0f);
+            spriteBatch.Draw(greySquare, new Vector2(360, 756), new Rectangle(0, 0, 10, 5), Color.White*0.95f, 0f, Vector2.Zero, 8, SpriteEffects.None, 0f);
             if(Player.TeleportationCooldown>0)
-            spriteBatch.Draw(greySquare, new Vector2(0, 470), new Rectangle(0, 0, 10, 10), Color.Purple * 0.95f, 0f, Vector2.Zero, 80*(float)(Player.TeleportationCooldown/Player.MAX_TELEPORTATION_COOLDOWN), SpriteEffects.None, 0f);
+            spriteBatch.Draw(greySquare, new Vector2(0, 790), new Rectangle(0, 0, 10, 10), Color.Purple * 0.95f, 0f, Vector2.Zero, 80*(float)(Player.TeleportationCooldown/Player.MAX_TELEPORTATION_COOLDOWN), SpriteEffects.None, 0f);
             string csecs = (((int)CurrentTime % 60) <= 9) ? "0" + ((int)CurrentTime % 60).ToString() : ((int)CurrentTime % 60).ToString();
             //spriteBatch.DrawString(arial, Math.Floor((int)CurrentTime / 60.0).ToString() + ":" + csecs, new Vector2(40, 435), Color.Black);
-            spriteBatch.DrawString(arial, Math.Floor((int)CurrentTime / 60.0).ToString() + ":" + csecs, new Vector2(368, 438), new Color(20, 20, 20));
+            spriteBatch.DrawString(arial, Math.Floor((int)CurrentTime / 60.0).ToString() + ":" + csecs, new Vector2(368, 758), new Color(20, 20, 20));
             
         }
 

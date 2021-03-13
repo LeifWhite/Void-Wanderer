@@ -27,3 +27,11 @@ A link to the attribution 3.0 licence can be found here https://creativecommons.
 Content/VW Grey Square - created by Leif White for making this game
 
 Content/Pickup_Coin15.wav - created by Nathan Bean for his audio tutorial with BXFR, released under public domain
+
+Content/VW Ginesha - created by Elena White for making this game, released privately to be used in this game
+
+Content/VW New Gloucester - created by Elena White for making this game, released privately to be used in this game
+
+Content/VW Onyet - created by Elena White for making this game, released privately to be used in this game
+
+Content/VW Dirt - created by Elena White for making this game, released privately to be used in this game

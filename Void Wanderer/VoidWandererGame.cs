@@ -34,6 +34,8 @@ namespace Void_Wanderer
         public VoidWandererGame()
         {
             graphics = new GraphicsDeviceManager(this);
+            graphics.PreferredBackBufferHeight = 800;
+            graphics.PreferredBackBufferWidth = 800;
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }

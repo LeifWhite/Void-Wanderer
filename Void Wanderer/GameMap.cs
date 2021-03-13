@@ -13,9 +13,13 @@ namespace Void_Wanderer
     public class GameMap
     {
         /// <summary>
-        /// What block looks like
+        /// What coin looks like
         /// </summary>
         private Texture2D texture;
+        /// <summary>
+        /// What dirt look like
+        /// </summary>
+        private Texture2D dirt;
         /// <summary>
         /// Map of where blocks are
         /// </summary>
@@ -37,6 +41,11 @@ namespace Void_Wanderer
         /// How many coins are there?
         /// </summary>
         public int CoinCount = 10;
+        /// <summary>
+        /// What background are we on
+        /// </summary>
+        public int Bnum = 0;
+
         private int room = -1;
         private Color[] colorMap = new Color[]
         {
@@ -45,6 +54,12 @@ namespace Void_Wanderer
             Color.Firebrick,
             Color.Sienna,
             Color.ForestGreen
+        };
+        private Color[] colorMap2 = new Color[]
+        {
+            Color.OrangeRed,
+            Color.LightGreen,
+            Color.BlueViolet
         };
         /// <summary>
         /// Constructor
@@ -55,15 +70,22 @@ namespace Void_Wanderer
             Coins = new List<Coin>();
             TileMap = new string[]
             {
-                "GGGGGGGGGGGGGGGGG",
+                 "GGGGGGGGGGGGGGGGG",
                 "GAAAAAAAAAAAAAAAG",
-                "GAAAAAAAAAAAGAAAG",
-                "GAAAAGGAAAAAGAAAG",
-                "GAAAAAAAAAAGGGAAG",
-                "GAAAAAAGAAAAAAAAG",
-                "GAAAAAGGGAAAAAAAG",
-                "GAAAAAAAAAAGAAAAG",
-                "GAAAAAAAAAGGGAAAG",
+                "GAAAAAAAAAAAAAAAG",
+                "GAAAAAAAAAAAAAAAG",
+                "GAAAAAAAAAAAAAAAG",
+                "GAAAAAAAAAAAAAAAG",
+                "GAAAAAAAAAAAAAAAG",
+                "GAAAAAAAAAAAAAAAG",
+                "GAAAAAAAAAAAAAAAG",
+                "GAAAAAAAAAAAAAAAG",
+                "GAAAAAAAAAAAAAAAG",
+                "GAAAAAAAAAAAAAAAG",
+                "GAAAAAAAAAAAAAAAG",
+                "GAAAAAAAAAAAAAAAG",
+                "GAAAAAAAAAAAAAAAG",
+                "GAAAAAAAAAAAAAAAG",
                 "GGGGGGGGGGGGGGGGG"
             };
             RandomizeTileMap();
@@ -78,8 +100,13 @@ namespace Void_Wanderer
             {
                 for (int j = 0; j < TileMap[i].Length; j++)
                 {
+                    bool grass = false;
+                    if (i >= 1 && TileMap[i - 1][j] ==  'A')
+                    {
+                        grass = true;
+                    }
                     if (TileMap[i][j] == 'G')
-                        Blocks.Add(new Block(new Vector2(j * 48, i * 48)));
+                        Blocks.Add(new Block(new Vector2(j * 48, i * 48), colorMap2[Bnum], grass));
 
                 }
 
@@ -108,6 +135,13 @@ namespace Void_Wanderer
             TileMap = new string[]
            {
                 "GGGGGGGGGGGGGGGGG",
+                "GAAAAAAAAAAAAAAAG",
+                "GAAAAAAAAAAAAAAAG",
+                "GAAAAAAAAAAAAAAAG",
+                "GAAAAAAAAAAAAAAAG",
+                "GAAAAAAAAAAAAAAAG",
+                "GAAAAAAAAAAAAAAAG",
+                "GAAAAAAAAAAAAAAAG",
                 "GAAAAAAAAAAAAAAAG",
                 "GAAAAAAAAAAAAAAAG",
                 "GAAAAAAAAAAAAAAAG",
@@ -198,6 +232,7 @@ namespace Void_Wanderer
         public void LoadContent(ContentManager content)
         {
             texture = content.Load<Texture2D>("colored_packed");
+            dirt = content.Load<Texture2D>("VW Dirt");
         }
         /// <summary>
         /// Updaates, not needed
@@ -218,7 +253,7 @@ namespace Void_Wanderer
            
             for(int i = 0; i<Blocks.Count; i++)
             {
-                Blocks[i].Draw(gameTime, spriteBatch, texture);
+                Blocks[i].Draw(gameTime, spriteBatch, dirt);
             }
             for (int i = 0; i < Coins.Count; i++)
             {

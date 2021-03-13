@@ -75,6 +75,18 @@
 /processorParam:TextureFormat=Color
 /build:VW Circle.png
 
+#begin VW Dirt.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:VW Dirt.png
+
 #begin VW Eye Open Close.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -111,6 +123,18 @@
 /processorParam:TextureFormat=Color
 /build:VW eye_open.png
 
+#begin VW Ginesha.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:VW Ginesha.png
+
 #begin VW Grey Square.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -122,6 +146,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:VW Grey Square.png
+
+#begin VW New Gloucester.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:VW New Gloucester.png
+
+#begin VW Onyet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:VW Onyet.png
 
 #begin VW play_button.png
 /importer:TextureImporter

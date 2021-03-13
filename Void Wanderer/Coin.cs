@@ -56,8 +56,11 @@ namespace Void_Wanderer
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch, Texture2D texture)
         {
             coinTime += gameTime.ElapsedGameTime.TotalSeconds;
-            if(!IsCollected)
-                 spriteBatch.Draw(texture, Position, source, coinColor, 0f, new Vector2(8, 8), new Vector2((float)Math.Abs(Math.Sin(coinTime))*2, 2), SpriteEffects.None, 0f);
+            if (!IsCollected)
+            {
+                spriteBatch.Draw(texture, Position, source, Color.Black, 0f, new Vector2(8, 8), new Vector2((float)Math.Abs(Math.Sin(coinTime)) * 2.2f, 2.2f), SpriteEffects.None, 0f);
+                spriteBatch.Draw(texture, Position, source, coinColor, 0f, new Vector2(8, 8), new Vector2((float)Math.Abs(Math.Sin(coinTime)) * 2, 2), SpriteEffects.None, 0f);
+            }
         }
 
     }

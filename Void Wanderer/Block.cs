@@ -24,18 +24,26 @@ namespace Void_Wanderer
         /// </summary>
         public BoundingRectangle Bounds => bounds;
         private Rectangle source;
+        private Color color;
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="position"></param>
-        public Block(Vector2 position)
+        public Block(Vector2 position, Color color, bool grass=false)
         {
             Position = position;
-            
+            this.color = color;
             bounds.X = Position.X;
             bounds.Y = Position.Y;
-           
-            source = new Rectangle(10 * 16, 17 * 16, 16, 16);
+            if (!grass)
+            {
+                source = new Rectangle(10, 10, 48, 48);
+            }
+            else
+            {
+                source = new Rectangle(67, 10, 48, 48);
+            }
+            
         }
         /// <summary>
         /// Draws block
@@ -45,8 +53,8 @@ namespace Void_Wanderer
         /// <param name="texture"></param>
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch, Texture2D texture)
         {
-
-                spriteBatch.Draw(texture, Position, source, Color.White, 0f, Vector2.Zero, 3f, SpriteEffects.None, 0f);
+            
+            spriteBatch.Draw(texture, Position, source, color, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
         }
         
     }
