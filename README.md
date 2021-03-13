@@ -10,3 +10,7 @@ Any art you see in this that makes you think "Huh, that looks pretty good!" done
 Done with Game 2 section!
 
 Shout out to my Dad for making the cool music!
+
+Done with Game 3 section!
+
+Elena again made some really cool art for this.
