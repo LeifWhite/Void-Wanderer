@@ -28,8 +28,11 @@ namespace Void_Wanderer
         /// <summary>
         /// What rectangle from the decor is it?
         /// </summary>
-        public Rectangle DecorRect;
-        private BoundingRectangle bounds = new BoundingRectangle(new Vector2(0, 0), 48, 48);
+        public List<Rectangle> DecorRect;
+        public int DecorRectFrame;
+        private float animationTime;
+        private float animationSwitch = 2f;
+        private BoundingRectangle bounds = new BoundingRectangle(new Vector2(0, 0), 48 * (Screen.SIZE / 800f), 48 * (Screen.SIZE / 800f));
         /// <summary>
         /// Collision boundary
         /// </summary>
@@ -42,6 +45,8 @@ namespace Void_Wanderer
         /// <param name="position"></param>
         public Block(Vector2 position, Color color, bool grass=false)
         {
+            Random r = new Random();
+            animationTime = (float)r.NextDouble()*animationSwitch;
             Position = position;
             this.color = color;
             bounds.X = Position.X;
@@ -64,12 +69,27 @@ namespace Void_Wanderer
         /// <param name="texture"></param>
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch, Texture2D texture)
         {
+            
             if (HasDecor)
             {
-                spriteBatch.Draw(Decor, new Vector2(Position.X+24-DecorRect.Width/2, Position.Y-DecorRect.Height), DecorRect, Color.White, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
+                if (DecorRect.Count > 1)
+                {
+                    animationTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    if (animationTime > animationSwitch)
+                    {
+                        animationTime -= animationSwitch;
+                        DecorRectFrame++;
+                        if (DecorRectFrame >= DecorRect.Count)
+                        {
+                            DecorRectFrame = 0;
+                        }
+                    }
+                }
+                spriteBatch.Draw(Decor, new Vector2(Position.X+(24 - DecorRect[DecorRectFrame].Width/2) * (Screen.SIZE / 800f), Position.Y-(DecorRect[DecorRectFrame].Height) * (Screen.SIZE / 800f)), DecorRect[DecorRectFrame], Color.White, 0f, Vector2.Zero, 1f * (Screen.SIZE / 800f), SpriteEffects.None, 0f);
             }
-            spriteBatch.Draw(texture, Position, source, color, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
-            
+            spriteBatch.Draw(texture, Position, source, color, 0f, Vector2.Zero, 1.01f * (Screen.SIZE / 800f), SpriteEffects.None, 0f);
+            //spriteBatch.Draw(texture, new Vector2(bounds.X, bounds.Y), new Rectangle(12, 12, 1, 1), new Color(255, 0, 0, 60), 0f, Vector2.Zero, new Vector2(bounds.Width, bounds.Height), SpriteEffects.None, 0f);
+
         }
         
     }

@@ -73,7 +73,7 @@ namespace Void_Wanderer
             //new gloucester textures
             new List<Rectangle> {new Rectangle(6, 6, 22-6, 65-6), new Rectangle(25, 33, 50 - 25, 66 - 33), new Rectangle(56, 33, 56 - 25, 66 - 33), new Rectangle(6, 70, 20 - 6, 91 - 70) },
             //onyet textures
-            new List<Rectangle> {new Rectangle(5, 6, 35-6, 57-6), new Rectangle(41, 7, 41 - 6, 57 - 6), new Rectangle(74, 6, 35 - 6, 57 - 6), new Rectangle(106, 6, 35-6, 57-6) },
+            new List<Rectangle> {new Rectangle(5, 6, 35-6, 57-6), new Rectangle(106, 6, 35 - 6, 57 - 6),  new Rectangle(41, 7, 41 - 6, 57 - 6), new Rectangle(74, 6, 35 - 6, 57 - 6), new Rectangle(41, 7, 41 - 6, 57 - 6), new Rectangle(106, 6, 35-6, 57-6) },
 
 
         };
@@ -124,7 +124,7 @@ namespace Void_Wanderer
                     }
                     if (TileMap[i][j] == 'G')
                     {
-                        Block addBlock = new Block(new Vector2(j * 48, i * 48), colorMap2[Bnum], grass);
+                        Block addBlock = new Block(new Vector2(j * 48, i * 48) * (Screen.SIZE / 800f), colorMap2[Bnum], grass);
                         blockXYdictionary[new Vector2(j, i)] = addBlock;
                         Blocks.Add(addBlock);
 
@@ -144,7 +144,7 @@ namespace Void_Wanderer
                 r = rand.NextDouble();
                 if (r < (float)(CoinCount - Coins.Count) / (possibleCoinLocations.Count - i))
                 {
-                    Coins.Add(new Coin(possibleCoinLocations[i] * 48 + new Vector2(6, 6), colorMap[Math.Min(room, 4)]));
+                    Coins.Add(new Coin((possibleCoinLocations[i] *48 + new Vector2(6 , 6)) * (Screen.SIZE / 800f), colorMap[Math.Min(room, 4)]));
                     coinLocations.Add(possibleCoinLocations[i]);
                 }
 
@@ -167,12 +167,19 @@ namespace Void_Wanderer
                     continue;
                 }
                 r = rand.NextDouble();
-                if (r > 0.75)
+                if (r > 0.85)
                 {
                     Vector2 blockLocation = new Vector2(possibleDecorLocations[i].X, possibleDecorLocations[i].Y + 1);
                     blockXYdictionary[blockLocation].HasDecor = true;
                     blockXYdictionary[blockLocation].Decor = decorMap[Bnum];
-                    blockXYdictionary[blockLocation].DecorRect = rectangleMap[Bnum][rand.Next(rectangleMap[Bnum].Count)];
+                    if(Bnum !=2)
+                        blockXYdictionary[blockLocation].DecorRect = new List<Rectangle> { rectangleMap[Bnum][rand.Next(rectangleMap[Bnum].Count)] };
+                    else
+                    {
+                        blockXYdictionary[blockLocation].DecorRect = rectangleMap[Bnum];
+                    }
+
+                    blockXYdictionary[blockLocation].DecorRectFrame = rand.Next(blockXYdictionary[blockLocation].DecorRect.Count-1);
                 }
             }
         }
@@ -277,7 +284,7 @@ namespace Void_Wanderer
                  }
             }
             int ran = rand.Next(possibleCoinLocations.Count);
-            RhoStartingPosition = possibleCoinLocations[ran] * 48;
+            RhoStartingPosition = possibleCoinLocations[ran] *48* (Screen.SIZE / 800f);
             possibleCoinLocations.RemoveAt(ran);
             
         }

@@ -15,10 +15,14 @@ namespace Void_Wanderer
 
 
     }
+    public static class Screen
+    {
+        public const int SIZE = 1600;
+    }
     public class VoidWandererGame : Game
     {
-        private bool fading = false;
-        private GameState nextGameState;
+        //private bool fading = false;
+        //private GameState nextGameState;
         private InputManager inputManager;
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
@@ -26,7 +30,8 @@ namespace Void_Wanderer
         private GameScreen gameplay;
         private MenuScreen menu;
         private GameState gameState = GameState.Menu;
-        private double currentRunSecs = 0;
+        //private double currentRunSecs = 0;
+       
         private double bestRunSecs = -1;
         /// <summary>
         /// Constructor for game
@@ -34,8 +39,8 @@ namespace Void_Wanderer
         public VoidWandererGame()
         {
             graphics = new GraphicsDeviceManager(this);
-            graphics.PreferredBackBufferHeight = 800;
-            graphics.PreferredBackBufferWidth = 800;
+            graphics.PreferredBackBufferHeight = Screen.SIZE;
+            graphics.PreferredBackBufferWidth = Screen.SIZE;
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }
@@ -84,7 +89,7 @@ namespace Void_Wanderer
                     inputManager.Update(gameTime);
                     if (menu.PlayButton.Clicked()) { 
                             gameState = GameState.Game;
-                            fading = true;
+                            //fading = true;
                             MediaPlayer.IsRepeating = true;
                             MediaPlayer.Play(gameplay.BackgroundMusic);
                             if (menu.CurrentTime != -1 || gameplay.CurrentTime!=-1)

@@ -70,7 +70,7 @@ namespace Void_Wanderer
         {
             color = color ?? Color.White;
             Vector2 centerRelative = new Vector2(source.Width / 2, source.Height / 2);
-            spriteBatch.Draw(texture, Position+centerRelative*2, source, (Color)color, rotation, centerRelative, scale, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texture, Position+centerRelative*this.scale, source, (Color)color, rotation, centerRelative, scale, SpriteEffects.None, 0f);
         }
         /// <summary>
         /// updates
@@ -95,9 +95,12 @@ namespace Void_Wanderer
             {
                 if (mouseLocation.CollidesWith(bounds))
                 {
+                    //System.Diagnostics.Debug.WriteLine("Clicked!");
                     return true;
                 }
+                //System.Diagnostics.Debug.WriteLine("Didn't click");
             }
+           
             return false;
         }
         /// <summary>

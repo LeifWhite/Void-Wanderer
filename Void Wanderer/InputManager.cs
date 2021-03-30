@@ -59,7 +59,7 @@ namespace Void_Wanderer
        /// <returns></returns>
         public bool MouseClicked()
         {
-            if (currentMouseState.X > 0 && currentMouseState.Y > 0 && currentMouseState.X < 800 && currentMouseState.Y < 800)
+            if (currentMouseState.X > 0 && currentMouseState.Y > 0 && currentMouseState.X < 800 * (Screen.SIZE / 800f) && currentMouseState.Y < 800 * (Screen.SIZE / 800f))
             {
                 if (priorMouseState.LeftButton == ButtonState.Released && currentMouseState.LeftButton == ButtonState.Pressed)
                 {

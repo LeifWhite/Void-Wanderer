@@ -91,14 +91,14 @@ namespace Void_Wanderer
             settingsTexture = content.Load<Texture2D>("colored_packed");
             coinPickup = content.Load<SoundEffect>("Pickup_Coin15");
 
-            SettingsButton = new Button(new Vector2(734, 25), settingsTexture, new Rectangle(45 * 16, 16 * 16, 16, 16), 3.5f);
-            PlayButton = new Button(new Vector2(303, 670), playTexture, 2f);
+            SettingsButton = new Button(new Vector2(734, 25) * (Screen.SIZE / 800f), settingsTexture, new Rectangle(45 * 16, 16 * 16, 16, 16), 3.5f * (Screen.SIZE / 800f));
+            PlayButton = new Button(new Vector2(303, 670) * (Screen.SIZE / 800f), playTexture, 2f * (Screen.SIZE / 800f));
             volumeButtons = new Button[]
             {
-                new Button( new Vector2(150, 835), settingsTexture, new Rectangle(16 * 37, 16 * 20, 16, 16), 4f),
-                new Button( new Vector2(586, 835), settingsTexture, new Rectangle(16 * 36, 16 * 20, 16, 16), 4f),
-                new Button( new Vector2(150, 1485), settingsTexture, new Rectangle(16 * 37, 16 * 20, 16, 16), 4f),
-                new Button( new Vector2(586, 1485), settingsTexture, new Rectangle(16 * 36, 16 * 20, 16, 16), 4f)
+                new Button( new Vector2(150, 835)*(Screen.SIZE / 800f), settingsTexture, new Rectangle(16 * 37, 16 * 20, 16, 16), 4f*(Screen.SIZE / 800f)),
+                new Button( new Vector2(586, 835)*(Screen.SIZE / 800f), settingsTexture, new Rectangle(16 * 36, 16 * 20, 16, 16), 4f*(Screen.SIZE / 800f)),
+                new Button( new Vector2(150, 1485)*(Screen.SIZE / 800f), settingsTexture, new Rectangle(16 * 37, 16 * 20, 16, 16), 4f*(Screen.SIZE / 800f)),
+                new Button( new Vector2(586, 1485)*(Screen.SIZE / 800f), settingsTexture, new Rectangle(16 * 36, 16 * 20, 16, 16), 4f*(Screen.SIZE / 800f))
 
             };
         }
@@ -125,18 +125,18 @@ namespace Void_Wanderer
             }
             if(sc == ScrollDirection.Down)
             {
-                offset.Y -= (float)gameTime.ElapsedGameTime.TotalSeconds * 200;
+                offset.Y -= (float)gameTime.ElapsedGameTime.TotalSeconds * 200 * (Screen.SIZE / 800f);
 
             }
             else if(sc == ScrollDirection.Up)
             {
-                offset.Y += (float)gameTime.ElapsedGameTime.TotalSeconds * 200;
+                offset.Y += (float)gameTime.ElapsedGameTime.TotalSeconds * 200 * (Screen.SIZE / 800f);
 
             }
-            if (offset.Y > 0 || offset.Y < -800)
+            if (offset.Y > 0 || offset.Y < -800 * (Screen.SIZE / 800f))
             {
                 sc = ScrollDirection.Still;
-                MathHelper.Clamp(offset.Y, -800, 0);
+                MathHelper.Clamp(offset.Y, -800 * (Screen.SIZE / 800f), 0);
             }
             PlayButton.MoveButtonBoundary(new Vector2(PlayButton.Position.X, PlayButton.Position.Y) + offset);
             for (int i = 0; i < volumeButtons.Length; i++)
@@ -182,21 +182,21 @@ namespace Void_Wanderer
             Rectangle source = Math.Floor(blinkTimer) % 4 == 0 ? new Rectangle(0, 0, 200, 200) : new Rectangle(200, 0, 200, 200);
             spriteBatch.Draw(texture, new Vector2(0, 0), source,
                 new Color(1 - (float)Math.Abs(Math.Sin(blinkTimer) / 3), 1 - (float)Math.Abs(Math.Sin(blinkTimer) / 3), 1 - (float)Math.Abs(Math.Sin(blinkTimer) / 3)),
-                0f, new Vector2(0, 0), 4f, SpriteEffects.None, 0);
+                0f, new Vector2(0, 0), 4f * (Screen.SIZE / 800f), SpriteEffects.None, 0);
             Matrix transform = Matrix.CreateTranslation(offset.X, offset.Y, 0);
             spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, transformMatrix: transform);
             
             Rectangle titleSource = Math.Floor(blinkTimer*2.5) % 3 == 0 ? new Rectangle(0, 6, 189, 44): Math.Floor(blinkTimer) % 3 == 1 ? new Rectangle(0, 59, 189, 44): new Rectangle(0, 112, 189, 44);
-            spriteBatch.Draw(titleTexture, new Vector2(400, 300), titleSource,
+            spriteBatch.Draw(titleTexture, new Vector2(400, 300) * (Screen.SIZE / 800f), titleSource,
               Color.White,
-               0f, new Vector2(titleTexture.Width/2, titleTexture.Height/2), 2.75f, SpriteEffects.None, 0);
+               0f, new Vector2(titleTexture.Width/2, titleTexture.Height/2), 2.75f * (Screen.SIZE / 800f), SpriteEffects.None, 0);
 
             source = new Rectangle(16 * 38, 16 * 16, 16, 16);
             //System.Diagnostics.Debug.WriteLine(5f - SoundVolume * (4f / 10));
-            spriteBatch.Draw(settingsTexture, new Vector2(400, 1510), source, lilac, 0f, new Vector2(8, 8), 5f-(10-SoundVolume)*(4f/10), SpriteEffects.None, 0);
+            spriteBatch.Draw(settingsTexture, new Vector2(400, 1510) * (Screen.SIZE / 800f), source, lilac, 0f, new Vector2(8, 8), (5f-(10-SoundVolume)*(4f/10)) * (Screen.SIZE / 800f), SpriteEffects.None, 0);
             source = new Rectangle(16 * 39, 16 * 16, 16, 16);
-            spriteBatch.Draw(settingsTexture, new Vector2(400, 860), source, lilac, 0f, new Vector2(8, 8), 5f-(10-SongVolume)*(4f/10), SpriteEffects.None, 0);
+            spriteBatch.Draw(settingsTexture, new Vector2(400, 860) * (Screen.SIZE / 800f), source, lilac, 0f, new Vector2(8, 8), (5f-(10-SongVolume)*(4f/10)) * (Screen.SIZE / 800f), SpriteEffects.None, 0);
             
 
             PlayButton.Draw(gameTime, spriteBatch);
@@ -206,27 +206,27 @@ namespace Void_Wanderer
             }
             if (CurrentTime != -1)
             {
-                spriteBatch.DrawString(arial, "Time", new Vector2(40, 690), Color.Silver);
-                spriteBatch.DrawString(arial, "Time", new Vector2(41, 692), lilac);
+                spriteBatch.DrawString(arial, "Time", new Vector2(40, 690) * (Screen.SIZE / 800f), Color.Silver);
+                spriteBatch.DrawString(arial, "Time", new Vector2(41, 692) * (Screen.SIZE / 800f), lilac);
                 string csecs = ((CurrentTime % 60)<=9) ? "0"+ (CurrentTime % 60).ToString() : (CurrentTime % 60).ToString();
-                spriteBatch.DrawString(arial, Math.Floor(CurrentTime/60.0).ToString()+":"+csecs, new Vector2(40, 730), Color.Silver);
-                spriteBatch.DrawString(arial, Math.Floor(CurrentTime / 60.0).ToString() + ":" + csecs, new Vector2(41, 732), lilac);
+                spriteBatch.DrawString(arial, Math.Floor(CurrentTime/60.0).ToString()+":"+csecs, new Vector2(40, 730) * (Screen.SIZE / 800f), Color.Silver);
+                spriteBatch.DrawString(arial, Math.Floor(CurrentTime / 60.0).ToString() + ":" + csecs, new Vector2(41, 732) * (Screen.SIZE / 800f), lilac);
 
-                spriteBatch.DrawString(arial, "Best", new Vector2(685, 690), Color.Silver);
-                spriteBatch.DrawString(arial, "Best", new Vector2(686, 692), lilac);
+                spriteBatch.DrawString(arial, "Best", new Vector2(685, 690) * (Screen.SIZE / 800f), Color.Silver);
+                spriteBatch.DrawString(arial, "Best", new Vector2(686, 692) * (Screen.SIZE / 800f), lilac);
                 string bsecs = ((BestTime % 60) <= 9) ? "0" + (BestTime % 60).ToString() : (BestTime % 60).ToString();
-                spriteBatch.DrawString(arial, Math.Floor(BestTime / 60.0).ToString() + ":" +bsecs, new Vector2(685, 730), Color.Silver);
-                spriteBatch.DrawString(arial, Math.Floor(BestTime / 60.0).ToString() + ":" + bsecs, new Vector2(686, 732), lilac);
+                spriteBatch.DrawString(arial, Math.Floor(BestTime / 60.0).ToString() + ":" +bsecs, new Vector2(685, 730) * (Screen.SIZE / 800f), Color.Silver);
+                spriteBatch.DrawString(arial, Math.Floor(BestTime / 60.0).ToString() + ":" + bsecs, new Vector2(686, 732) * (Screen.SIZE / 800f), lilac);
 
             }
             else
             {
-                spriteBatch.DrawString(arial_small, "WASD to move", new Vector2(30+(float)Math.Sin(blinkTimer)*15, 720), Color.Silver);
-                spriteBatch.DrawString(arial_small, "WASD to move", new Vector2(31 + (float)Math.Sin(blinkTimer) * 15, 721), lilac);
-                spriteBatch.DrawString(arial_small, "R to restart", new Vector2(45 + (float)Math.Sin(blinkTimer) * 15, 744), Color.Silver);
-                spriteBatch.DrawString(arial_small, "R to restart", new Vector2(46 + (float)Math.Sin(blinkTimer) * 15, 746), lilac);
-                spriteBatch.DrawString(arial_small, "Click to teleport", new Vector2(615 + (float)Math.Sin(blinkTimer) * 15, 720), Color.Silver);
-                spriteBatch.DrawString(arial_small, "Click to teleport", new Vector2(616 + (float)Math.Sin(blinkTimer) * 15, 721), lilac);
+                spriteBatch.DrawString(arial_small, "WASD to move", new Vector2(30+(float)Math.Sin(blinkTimer)*15, 720) * (Screen.SIZE / 800f), Color.Silver);
+                spriteBatch.DrawString(arial_small, "WASD to move", new Vector2(31 + (float)Math.Sin(blinkTimer) * 15, 721) * (Screen.SIZE / 800f), lilac);
+                spriteBatch.DrawString(arial_small, "R to restart", new Vector2(45 + (float)Math.Sin(blinkTimer) * 15, 744) * (Screen.SIZE / 800f), Color.Silver);
+                spriteBatch.DrawString(arial_small, "R to restart", new Vector2(46 + (float)Math.Sin(blinkTimer) * 15, 746) * (Screen.SIZE / 800f), lilac);
+                spriteBatch.DrawString(arial_small, "Click to teleport", new Vector2(615 + (float)Math.Sin(blinkTimer) * 15, 720) * (Screen.SIZE / 800f), Color.Silver);
+                spriteBatch.DrawString(arial_small, "Click to teleport", new Vector2(616 + (float)Math.Sin(blinkTimer) * 15, 721) * (Screen.SIZE / 800f), lilac);
 
             }
             spriteBatch.End();

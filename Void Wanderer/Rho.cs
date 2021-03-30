@@ -28,7 +28,7 @@ namespace Void_Wanderer
         /// <summary>
         /// How big is Rho
         /// </summary>
-        public const float SIZESCALE = 1.4f;
+        public const float SIZESCALE = 1.4f * (Screen.SIZE / 800f);
 
         /// <summary>
         /// Is Rho teleporting
@@ -221,10 +221,10 @@ namespace Void_Wanderer
             }
 
             //BoundingPoint p = new BoundingPoint(destination);
-            Vector2 tmIndexer = new Vector2((float)Math.Floor(destination.X/48), (float)Math.Floor(destination.Y/48));
+            Vector2 tmIndexer = new Vector2((float)Math.Floor(destination.X/(48 * (Screen.SIZE / 800f))), (float)Math.Floor(destination.Y/(48 * (Screen.SIZE / 800f))));
             if (tileMap[(int)tmIndexer.Y][(int)tmIndexer.X]=='A')
             {
-                Teleport(tmIndexer.X*48+1, tmIndexer.Y*48+48-33*Rho.SIZESCALE-1);
+                Teleport(tmIndexer.X*48 * (Screen.SIZE / 800f) + 1, tmIndexer.Y*48 * (Screen.SIZE / 800f) + 48 * (Screen.SIZE / 800f) - 33*Rho.SIZESCALE-1);
             }
         }
         /// <summary>

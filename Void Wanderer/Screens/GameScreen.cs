@@ -41,7 +41,20 @@ namespace Void_Wanderer
         /// <summary>
         /// How high you jump
         /// </summary>
-        private const int JUMPHEIGHT = 8;
+        private const float JUMPHEIGHT = (9.3f * (Screen.SIZE / 800f));
+        /// <summary>
+        /// How high you jump
+        /// </summary>
+        private const int MOVESPEED = (int)(1 * (Screen.SIZE / 800f));
+
+        /// <summary>
+        /// How high you jump
+        /// </summary>
+        private const float GRAVITY = 0.3f * (Screen.SIZE / 800f);
+        /// <summary>
+        /// How high you jump
+        /// </summary>
+        private const float TERMINALVELOCITY = 6.5f * (Screen.SIZE / 800f);
         /// <summary>
         /// Sound effect when you get a coin
         /// </summary>
@@ -129,7 +142,7 @@ namespace Void_Wanderer
             }
             else
             {
-                move.X = inputManager.Direction.X;
+                move.X = inputManager.Direction.X*MOVESPEED;
 
                 if (inputManager.TryJump && move.Y == 0)
                 {
@@ -137,7 +150,7 @@ namespace Void_Wanderer
                 }
                 else
                 {
-                    move.Y = MathHelper.Min(move.Y + 0.3f, 6.5f);
+                    move.Y = MathHelper.Min(move.Y + GRAVITY, TERMINALVELOCITY);
                 }
 
                 projectedLocation.X = Player.Position.X + move.X;
@@ -241,17 +254,17 @@ namespace Void_Wanderer
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
 
-            spriteBatch.Draw(backgrounds[currentBackground], new Vector2(0, 0), null, Color.White, 0f, Vector2.Zero, 4, SpriteEffects.None, 0f);
+            spriteBatch.Draw(backgrounds[currentBackground], new Vector2(0, 0), null, Color.White, 0f, Vector2.Zero, 4 * (Screen.SIZE / 800f), SpriteEffects.None, 0f);
             gameMap.Draw(gameTime, spriteBatch);
             Player.Draw(gameTime, spriteBatch);
             //spriteBatch.DrawString(arial, "Time", new Vector2(40, 390), Color.Silver);
             //spriteBatch.DrawString(arial, "Time", new Vector2(41, 392), Color.White);
-            spriteBatch.Draw(greySquare, new Vector2(360, 756), new Rectangle(0, 0, 10, 5), Color.White*0.95f, 0f, Vector2.Zero, 8, SpriteEffects.None, 0f);
+            spriteBatch.Draw(greySquare, new Vector2(360, 756) * (Screen.SIZE / 800f), new Rectangle(0, 0, 10, 5), Color.White*0.95f, 0f, Vector2.Zero, 8 * (Screen.SIZE / 800f), SpriteEffects.None, 0f);
             if(Player.TeleportationCooldown>0)
-            spriteBatch.Draw(greySquare, new Vector2(0, 790), new Rectangle(0, 0, 10, 10), Color.Purple * 0.95f, 0f, Vector2.Zero, 80*(float)(Player.TeleportationCooldown/Player.MAX_TELEPORTATION_COOLDOWN), SpriteEffects.None, 0f);
+            spriteBatch.Draw(greySquare, new Vector2(0, 790) * (Screen.SIZE / 800f), new Rectangle(0, 0, 10, 10), Color.Purple * 0.95f, 0f, Vector2.Zero, 80*(float)(Player.TeleportationCooldown/Player.MAX_TELEPORTATION_COOLDOWN) * (Screen.SIZE / 800f), SpriteEffects.None, 0f);
             string csecs = (((int)CurrentTime % 60) <= 9) ? "0" + ((int)CurrentTime % 60).ToString() : ((int)CurrentTime % 60).ToString();
             //spriteBatch.DrawString(arial, Math.Floor((int)CurrentTime / 60.0).ToString() + ":" + csecs, new Vector2(40, 435), Color.Black);
-            spriteBatch.DrawString(arial, Math.Floor((int)CurrentTime / 60.0).ToString() + ":" + csecs, new Vector2(368, 758), new Color(20, 20, 20));
+            spriteBatch.DrawString(arial, Math.Floor((int)CurrentTime / 60.0).ToString() + ":" + csecs, new Vector2(368, 758) * (Screen.SIZE / 800f), new Color(20, 20, 20));
             
         }
 
