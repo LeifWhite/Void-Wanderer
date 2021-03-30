@@ -17,7 +17,18 @@ namespace Void_Wanderer
         /// Wher it is at
         /// </summary>
         public Vector2 Position;
-        
+        /// <summary>
+        /// Are there decorations on this block?
+        /// </summary>
+        public bool HasDecor = false;
+        /// <summary>
+        /// What texture the decor comes from
+        /// </summary>
+        public Texture2D Decor;
+        /// <summary>
+        /// What rectangle from the decor is it?
+        /// </summary>
+        public Rectangle DecorRect;
         private BoundingRectangle bounds = new BoundingRectangle(new Vector2(0, 0), 48, 48);
         /// <summary>
         /// Collision boundary
@@ -53,8 +64,12 @@ namespace Void_Wanderer
         /// <param name="texture"></param>
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch, Texture2D texture)
         {
-            
+            if (HasDecor)
+            {
+                spriteBatch.Draw(Decor, new Vector2(Position.X+24-DecorRect.Width/2, Position.Y-DecorRect.Height), DecorRect, Color.White, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
+            }
             spriteBatch.Draw(texture, Position, source, color, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
+            
         }
         
     }

@@ -20,6 +20,8 @@ namespace Void_Wanderer
         /// What dirt look like
         /// </summary>
         private Texture2D dirt;
+        private Texture2D ngDecor;
+        private Texture2D oDecor;
         /// <summary>
         /// Map of where blocks are
         /// </summary>
@@ -28,6 +30,7 @@ namespace Void_Wanderer
         /// List of blocks
         /// </summary>
         public List<Block> Blocks;
+        private Dictionary<Vector2, Block> blockXYdictionary = new Dictionary<Vector2, Block>();
         /// <summary>
         /// List of coins
         /// </summary>
@@ -37,6 +40,7 @@ namespace Void_Wanderer
         /// </summary>
         public Vector2 RhoStartingPosition;
         private List<Vector2> possibleCoinLocations;
+        private List<Vector2> possibleDecorLocations;
         /// <summary>
         /// How many coins are there?
         /// </summary>
@@ -61,6 +65,18 @@ namespace Void_Wanderer
             Color.LightGreen,
             Color.BlueViolet
         };
+        private Texture2D[] decorMap = new Texture2D[3];
+        private List<Rectangle>[] rectangleMap= new List<Rectangle>[]
+        {
+            //ginesha textures
+            new List<Rectangle> {new Rectangle(138, 9, 176-138, 47-9), new Rectangle(128, 49, 158 - 128, 88 - 49), new Rectangle(161, 49, 190 - 161, 88 - 49) },
+            //new gloucester textures
+            new List<Rectangle> {new Rectangle(6, 6, 22-6, 65-6), new Rectangle(25, 33, 50 - 25, 66 - 33), new Rectangle(56, 33, 56 - 25, 66 - 33), new Rectangle(6, 70, 20 - 6, 91 - 70) },
+            //onyet textures
+            new List<Rectangle> {new Rectangle(5, 6, 35-6, 57-6), new Rectangle(41, 7, 41 - 6, 57 - 6), new Rectangle(74, 6, 35 - 6, 57 - 6), new Rectangle(106, 6, 35-6, 57-6) },
+
+
+        };
         /// <summary>
         /// Constructor
         /// </summary>
@@ -70,7 +86,7 @@ namespace Void_Wanderer
             Coins = new List<Coin>();
             TileMap = new string[]
             {
-                 "GGGGGGGGGGGGGGGGG",
+                "GGGGGGGGGGGGGGGGG",
                 "GAAAAAAAAAAAAAAAG",
                 "GAAAAAAAAAAAAAAAG",
                 "GAAAAAAAAAAAAAAAG",
@@ -88,8 +104,9 @@ namespace Void_Wanderer
                 "GAAAAAAAAAAAAAAAG",
                 "GGGGGGGGGGGGGGGGG"
             };
+            
             RandomizeTileMap();
-            PopulateTileMap();
+            
         }
         /// <summary>
         /// Generates coin and block lists
@@ -101,19 +118,25 @@ namespace Void_Wanderer
                 for (int j = 0; j < TileMap[i].Length; j++)
                 {
                     bool grass = false;
-                    if (i >= 1 && TileMap[i - 1][j] ==  'A')
+                    if (i >= 1 && TileMap[i - 1][j] == 'A')
                     {
                         grass = true;
                     }
                     if (TileMap[i][j] == 'G')
-                        Blocks.Add(new Block(new Vector2(j * 48, i * 48), colorMap2[Bnum], grass));
+                    {
+                        Block addBlock = new Block(new Vector2(j * 48, i * 48), colorMap2[Bnum], grass);
+                        blockXYdictionary[new Vector2(j, i)] = addBlock;
+                        Blocks.Add(addBlock);
+
+                    }
 
                 }
 
             }
             var rand = new Random();
             double r;
-           
+
+            List<Vector2> coinLocations = new List<Vector2>();
             for (int i = 0; i < possibleCoinLocations.Count; i++)
             {
 
@@ -122,6 +145,34 @@ namespace Void_Wanderer
                 if (r < (float)(CoinCount - Coins.Count) / (possibleCoinLocations.Count - i))
                 {
                     Coins.Add(new Coin(possibleCoinLocations[i] * 48 + new Vector2(6, 6), colorMap[Math.Min(room, 4)]));
+                    coinLocations.Add(possibleCoinLocations[i]);
+                }
+
+            }
+            for (int i = 0; i < possibleDecorLocations.Count; i++)
+            {
+                bool eq = false;
+
+                for (int j = 0; j < coinLocations.Count; j++)
+                {
+                    if (possibleDecorLocations[i].Equals(coinLocations[j]))
+                    {
+                        eq = true;
+                        break;
+                    }
+
+                }
+                if (eq)
+                {
+                    continue;
+                }
+                r = rand.NextDouble();
+                if (r > 0.75)
+                {
+                    Vector2 blockLocation = new Vector2(possibleDecorLocations[i].X, possibleDecorLocations[i].Y + 1);
+                    blockXYdictionary[blockLocation].HasDecor = true;
+                    blockXYdictionary[blockLocation].Decor = decorMap[Bnum];
+                    blockXYdictionary[blockLocation].DecorRect = rectangleMap[Bnum][rand.Next(rectangleMap[Bnum].Count)];
                 }
             }
         }
@@ -210,6 +261,7 @@ namespace Void_Wanderer
                 }
             }
             possibleCoinLocations = new List<Vector2>();
+            possibleDecorLocations = new List<Vector2>();
             for (int i = 2; i < TileMap.Length; i++)
             {
                 for (int j = 1; j < TileMap[i].Length-1; j++)
@@ -218,12 +270,16 @@ namespace Void_Wanderer
                     {
                         possibleCoinLocations.Add(new Vector2(j, i-1));
                     }
-
+                    if(i>=4 && TileMap[i][j] == 'G' && TileMap[i - 1][j] == 'A' && TileMap[i - 2][j] == 'A' && TileMap[i - 3][j] == 'A')
+                    {
+                        possibleDecorLocations.Add(new Vector2(j, i - 1));
+                    }
                  }
             }
             int ran = rand.Next(possibleCoinLocations.Count);
             RhoStartingPosition = possibleCoinLocations[ran] * 48;
             possibleCoinLocations.RemoveAt(ran);
+            
         }
         /// <summary>
         /// Loads content
@@ -233,6 +289,12 @@ namespace Void_Wanderer
         {
             texture = content.Load<Texture2D>("colored_packed");
             dirt = content.Load<Texture2D>("VW Dirt");
+            ngDecor = content.Load<Texture2D>("New Gloucester Decorations");
+            oDecor = content.Load<Texture2D>("Onyet Decorations");
+            decorMap[0] = dirt;
+            decorMap[1] = ngDecor;
+            decorMap[2] = oDecor;
+            PopulateTileMap();
         }
         /// <summary>
         /// Updaates, not needed
