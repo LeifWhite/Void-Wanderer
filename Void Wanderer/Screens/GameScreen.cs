@@ -153,7 +153,7 @@ namespace Void_Wanderer
                     move.Y = MathHelper.Min(move.Y + GRAVITY, TERMINALVELOCITY);
                 }
 
-                projectedLocation.X = Player.Position.X + move.X;
+                projectedLocation.X = MathHelper.Clamp((Player.Position.X + move.X), 0, Screen.SIZE);
                 projectedLocation.Y = Player.Position.Y + move.Y;
                 if (move.X == 0)
                 {

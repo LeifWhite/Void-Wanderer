@@ -93,6 +93,10 @@ namespace Void_Wanderer
             {
                 TeleportationCooldown -= gameTime.ElapsedGameTime.TotalSeconds;
             }
+            if(Position.X+direction.X<0 || Position.X + direction.X > Screen.SIZE - bounds.Width)
+            {
+                direction.X = 0;
+            }
             if (direction.X > 0)
             {
                 currentDirection = Direction.Right;
@@ -106,7 +110,7 @@ namespace Void_Wanderer
                 currentDirection = Direction.Still;
             }
 
-            Position += direction;
+            Position = Position + direction;
             bounds.X = Position.X;
             bounds.Y = Position.Y;
             //System.Diagnostics.Debug.WriteLine(direction);
@@ -222,7 +226,7 @@ namespace Void_Wanderer
 
             //BoundingPoint p = new BoundingPoint(destination);
             Vector2 tmIndexer = new Vector2((float)Math.Floor(destination.X/(48 * (Screen.SIZE / 800f))), (float)Math.Floor(destination.Y/(48 * (Screen.SIZE / 800f))));
-            if (tileMap[(int)tmIndexer.Y][(int)tmIndexer.X]=='A')
+            if (tileMap[(int)tmIndexer.Y][(int)tmIndexer.X]=='A'&&tmIndexer.X<tileMap[0].Length-1)
             {
                 Teleport(tmIndexer.X*48 * (Screen.SIZE / 800f) + 1, tmIndexer.Y*48 * (Screen.SIZE / 800f) + 48 * (Screen.SIZE / 800f) - 33*Rho.SIZESCALE-1);
             }

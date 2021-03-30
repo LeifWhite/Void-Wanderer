@@ -86,23 +86,24 @@ namespace Void_Wanderer
             Coins = new List<Coin>();
             TileMap = new string[]
             {
-                "GGGGGGGGGGGGGGGGG",
-                "GAAAAAAAAAAAAAAAG",
-                "GAAAAAAAAAAAAAAAG",
-                "GAAAAAAAAAAAAAAAG",
-                "GAAAAAAAAAAAAAAAG",
-                "GAAAAAAAAAAAAAAAG",
-                "GAAAAAAAAAAAAAAAG",
-                "GAAAAAAAAAAAAAAAG",
-                "GAAAAAAAAAAAAAAAG",
-                "GAAAAAAAAAAAAAAAG",
-                "GAAAAAAAAAAAAAAAG",
-                "GAAAAAAAAAAAAAAAG",
-                "GAAAAAAAAAAAAAAAG",
-                "GAAAAAAAAAAAAAAAG",
-                "GAAAAAAAAAAAAAAAG",
-                "GAAAAAAAAAAAAAAAG",
-                "GGGGGGGGGGGGGGGGG"
+                "GGGGGGGGGGGGGGGGGGG",
+                "GAAAAAAAAAAAAAAAAAG",
+                "GAAAAAAAAAAAAAAAAAG",
+                "GAAAAAAAAAAAAAAAAAG",
+                "GAAAAAAAAAAAAAAAAAG",
+                "GAAAAAAAAAAAAAAAAAG",
+                "GAAAAAAAAAAAAAAAAAG",
+                "GAAAAAAAAAAAAAAAAAG",
+                "GAAAAAAAAAAAAAAAAAG",
+                "GAAAAAAAAAAAAAAAAAG",
+                "GAAAAAAAAAAAAAAAAAG",
+                "GAAAAAAAAAAAAAAAAAG",
+                "GAAAAAAAAAAAAAAAAAG",
+                "GAAAAAAAAAAAAAAAAAG",
+                "GAAAAAAAAAAAAAAAAAG",
+                "GAAAAAAAAAAAAAAAAAG",
+                "GAAAAAAAAAAAAAAAAAG",
+                "GGGGGGGGGGGGGGGGGGG"
             };
             
             RandomizeTileMap();
@@ -144,7 +145,7 @@ namespace Void_Wanderer
                 r = rand.NextDouble();
                 if (r < (float)(CoinCount - Coins.Count) / (possibleCoinLocations.Count - i))
                 {
-                    Coins.Add(new Coin((possibleCoinLocations[i] *48 + new Vector2(6 , 6)) * (Screen.SIZE / 800f), colorMap[Math.Min(room, 4)]));
+                    Coins.Add(new Coin(((possibleCoinLocations[i]) *48 + new Vector2(6 , 6)) * (Screen.SIZE / 800f), colorMap[Math.Min(room, 4)]));
                     coinLocations.Add(possibleCoinLocations[i]);
                 }
 
@@ -191,25 +192,25 @@ namespace Void_Wanderer
             room++;
             var rand = new Random();
             TileMap = new string[]
-           {
-                "GGGGGGGGGGGGGGGGG",
-                "GAAAAAAAAAAAAAAAG",
-                "GAAAAAAAAAAAAAAAG",
-                "GAAAAAAAAAAAAAAAG",
-                "GAAAAAAAAAAAAAAAG",
-                "GAAAAAAAAAAAAAAAG",
-                "GAAAAAAAAAAAAAAAG",
-                "GAAAAAAAAAAAAAAAG",
-                "GAAAAAAAAAAAAAAAG",
-                "GAAAAAAAAAAAAAAAG",
-                "GAAAAAAAAAAAAAAAG",
-                "GAAAAAAAAAAAAAAAG",
-                "GAAAAAAAAAAAAAAAG",
-                "GAAAAAAAAAAAAAAAG",
-                "GAAAAAAAAAAAAAAAG",
-                "GAAAAAAAAAAAAAAAG",
+             {
+                "AAAAAAAAAAAAAAAAA",
+                "AAAAAAAAAAAAAAAAA",
+                "AAAAAAAAAAAAAAAAA",
+                "AAAAAAAAAAAAAAAAA",
+                "AAAAAAAAAAAAAAAAA",
+                "AAAAAAAAAAAAAAAAA",
+                "AAAAAAAAAAAAAAAAA",
+                "AAAAAAAAAAAAAAAAA",
+                "AAAAAAAAAAAAAAAAA",
+                "AAAAAAAAAAAAAAAAA",
+                "AAAAAAAAAAAAAAAAA",
+                "AAAAAAAAAAAAAAAAA",
+                "AAAAAAAAAAAAAAAAA",
+                "AAAAAAAAAAAAAAAAA",
+                "AAAAAAAAAAAAAAAAA",
+                "AAAAAAAAAAAAAAAAA",
                 "GGGGGGGGGGGGGGGGG"
-           };
+             };
             double r;
             for (int i = 0; i < TileMap.Length; i++)
             {
@@ -284,7 +285,7 @@ namespace Void_Wanderer
                  }
             }
             int ran = rand.Next(possibleCoinLocations.Count);
-            RhoStartingPosition = possibleCoinLocations[ran] *48* (Screen.SIZE / 800f);
+            RhoStartingPosition = (possibleCoinLocations[ran]) *48* (Screen.SIZE / 800f);
             possibleCoinLocations.RemoveAt(ran);
             
         }
