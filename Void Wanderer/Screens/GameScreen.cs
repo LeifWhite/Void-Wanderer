@@ -8,6 +8,7 @@ using Void_Wanderer.Collisions;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Media;
+using Void_Wanderer.ParticleSystems;
 
 
 
@@ -16,7 +17,7 @@ namespace Void_Wanderer
    /// <summary>
    /// What happens during gameplay
    /// </summary>
-    public class GameScreen
+    public class GameScreen 
     {
 
         
@@ -41,20 +42,20 @@ namespace Void_Wanderer
         /// <summary>
         /// How high you jump
         /// </summary>
-        private const float JUMPHEIGHT = (9.3f * (Screen.SIZE / 800f));
+        private float JUMPHEIGHT = (9.3f * (Screen.SIZE / 800f));
         /// <summary>
         /// How high you jump
         /// </summary>
-        private const int MOVESPEED = (int)(1 * (Screen.SIZE / 800f));
+        private int MOVESPEED = (int)(1 * (Screen.SIZE / 800f));
 
         /// <summary>
         /// How high you jump
         /// </summary>
-        private const float GRAVITY = 0.3f * (Screen.SIZE / 800f);
+        private float GRAVITY = 0.3f * (Screen.SIZE / 800f);
         /// <summary>
         /// How high you jump
         /// </summary>
-        private const float TERMINALVELOCITY = 6.5f * (Screen.SIZE / 800f);
+        private float TERMINALVELOCITY = 6.5f * (Screen.SIZE / 800f);
         /// <summary>
         /// Sound effect when you get a coin
         /// </summary>
@@ -70,14 +71,24 @@ namespace Void_Wanderer
         public float CurrentTime;
         private SpriteFont arial;
         private Texture2D greySquare;
-        private int currentBackground;
+        public int CurrentBackground;
+
+        /// <summary>
+        /// Rain particle effect
+        /// </summary>
+        public RainParticleSystem Rain;
+
+        private Game g;
         /// <summary>
         /// Initializes
         /// </summary>
         public void Initialize()
         {
             // TODO: Add your initialization logic here
+            Rain = new RainParticleSystem(new Rectangle(0, -20, Screen.SIZE, 10));
            
+           
+            //Rain.IsRaining = false;
             projectedLocation = new BoundingRectangle();
             projectedLocation.Width = 29 * Rho.SIZESCALE;
             projectedLocation.Height = 33 * Rho.SIZESCALE;
@@ -92,10 +103,25 @@ namespace Void_Wanderer
             Player = new Rho() { Position = gameMap.RhoStartingPosition };
             inputManager = new InputManager();
             CurrentTime = 0;
-            Random random = new Random();
-            currentBackground = random.Next(0, 3);
-            gameMap.Bnum = currentBackground;
+
+            ChangeBackground();
         }
+        public void ChangeBackground()
+        {
+            CurrentBackground = RandomHelper.Next(0, 3);
+            gameMap.Bnum = CurrentBackground;
+            if (CurrentBackground == 1)
+            {
+                //Rain.IsRaining = true;
+            }
+            else
+            {
+               
+                //Rain.DestroyAllParticles();
+                //Rain.IsRaining = false;
+            }
+        }
+
         /// <summary>
         /// Loads content
         /// </summary>
@@ -105,13 +131,18 @@ namespace Void_Wanderer
             
             Player.LoadContent(content);
             gameMap.LoadContent(content);
+            Rain.LoadContent(content);
             coinPickup = content.Load<SoundEffect>("Pickup_Coin15");
-            BackgroundMusic = content.Load<Song>("Gamesong");
+            if(RandomHelper.NextFloat(0,1)>0.5)
+                BackgroundMusic = content.Load<Song>("Gamesong");
+            else
+                BackgroundMusic = content.Load<Song>("Stepping");
             arial = content.Load<SpriteFont>("arial");
             greySquare = content.Load<Texture2D>("VW Grey Square");
             backgrounds[0] = content.Load<Texture2D>("VW Ginesha");
             backgrounds[1] = content.Load<Texture2D>("VW New Gloucester");
             backgrounds[2] = content.Load<Texture2D>("VW Onyet");
+           
         }
         /// <summary>
         /// Updates game
@@ -120,15 +151,15 @@ namespace Void_Wanderer
         public void Update(GameTime gameTime)
         {
             CurrentTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (CurrentBackground == 1)
+                Rain.Update(gameTime);
             if (Player.UpdateNow)
             {
 
                 Player.UpdateNow = false;
                 
                 gameMap.Blocks = new List<Block>();
-                Random random = new Random();
-                currentBackground = random.Next(0, 3);
-                gameMap.Bnum = currentBackground;
+                ChangeBackground();
                 gameMap.PopulateTileMap();
                 Player.ForceMove(gameMap.RhoStartingPosition);
             }
@@ -254,9 +285,11 @@ namespace Void_Wanderer
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
 
-            spriteBatch.Draw(backgrounds[currentBackground], new Vector2(0, 0), null, Color.White, 0f, Vector2.Zero, 4 * (Screen.SIZE / 800f), SpriteEffects.None, 0f);
+            spriteBatch.Draw(backgrounds[CurrentBackground], new Vector2(0, 0), null, Color.White, 0f, Vector2.Zero, 4 * (Screen.SIZE / 800f), SpriteEffects.None, 0f);
             gameMap.Draw(gameTime, spriteBatch);
             Player.Draw(gameTime, spriteBatch);
+            if(CurrentBackground ==1 )
+                Rain.Draw(gameTime, spriteBatch);
             //spriteBatch.DrawString(arial, "Time", new Vector2(40, 390), Color.Silver);
             //spriteBatch.DrawString(arial, "Time", new Vector2(41, 392), Color.White);
             spriteBatch.Draw(greySquare, new Vector2(360, 756) * (Screen.SIZE / 800f), new Rectangle(0, 0, 10, 5), Color.White*0.95f, 0f, Vector2.Zero, 8 * (Screen.SIZE / 800f), SpriteEffects.None, 0f);
@@ -264,8 +297,8 @@ namespace Void_Wanderer
             spriteBatch.Draw(greySquare, new Vector2(0, 790) * (Screen.SIZE / 800f), new Rectangle(0, 0, 10, 10), Color.Purple * 0.95f, 0f, Vector2.Zero, 80*(float)(Player.TeleportationCooldown/Player.MAX_TELEPORTATION_COOLDOWN) * (Screen.SIZE / 800f), SpriteEffects.None, 0f);
             string csecs = (((int)CurrentTime % 60) <= 9) ? "0" + ((int)CurrentTime % 60).ToString() : ((int)CurrentTime % 60).ToString();
             //spriteBatch.DrawString(arial, Math.Floor((int)CurrentTime / 60.0).ToString() + ":" + csecs, new Vector2(40, 435), Color.Black);
-            spriteBatch.DrawString(arial, Math.Floor((int)CurrentTime / 60.0).ToString() + ":" + csecs, new Vector2(368, 758) * (Screen.SIZE / 800f), new Color(20, 20, 20));
-            
+            spriteBatch.DrawString(arial, Math.Floor((int)CurrentTime / 60.0).ToString() + ":" + csecs, new Vector2(368, 758) * (Screen.SIZE / 800f), new Color(20, 20, 20), 0, Vector2.Zero, (Screen.SIZE / 1600f), SpriteEffects.None, 0);
+
         }
 
 

@@ -35,3 +35,11 @@ Content/VW New Gloucester - created by Elena White for making this game, release
 Content/VW Onyet - created by Elena White for making this game, released privately to be used in this game
 
 Content/VW Dirt - created by Elena White for making this game, released privately to be used in this game
+
+Content/Onyet Decorations - created by Elena White for making this game, released privately to be used in this game
+
+Content/New Gloucester Decorations - created by Elena White for making this game, released privately to be used in this game
+
+Content/Stepping - Title "Steppes and Dales" created by Thomas White for making this game, released privately to be used in this game
+
+Content/PixelCircle - created by Leif White for making this game

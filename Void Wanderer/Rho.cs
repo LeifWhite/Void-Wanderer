@@ -28,7 +28,7 @@ namespace Void_Wanderer
         /// <summary>
         /// How big is Rho
         /// </summary>
-        public const float SIZESCALE = 1.4f * (Screen.SIZE / 800f);
+        public static float SIZESCALE = 1.4f * (Screen.SIZE / 800f);
 
         /// <summary>
         /// Is Rho teleporting

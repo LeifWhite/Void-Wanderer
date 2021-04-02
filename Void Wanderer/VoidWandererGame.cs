@@ -3,6 +3,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Void_Wanderer.Collisions;
 using Microsoft.Xna.Framework.Media;
+using System;
+using Void_Wanderer.ParticleSystems;
+
 
 
 namespace Void_Wanderer
@@ -17,7 +20,10 @@ namespace Void_Wanderer
     }
     public static class Screen
     {
-        public const int SIZE = 1600;
+        /// <summary>
+        /// How big is the screen?
+        /// </summary>
+        public static int SIZE = (int)(Math.Min(System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width, System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height)*0.9);
     }
     public class VoidWandererGame : Game
     {
@@ -26,7 +32,9 @@ namespace Void_Wanderer
         private InputManager inputManager;
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
-       // private InputManager inputManager;
+        //private ResizeStatus resizing; // Records status and (width, height) while resizing
+
+        // private InputManager inputManager;
         private GameScreen gameplay;
         private MenuScreen menu;
         private GameState gameState = GameState.Menu;
@@ -43,18 +51,34 @@ namespace Void_Wanderer
             graphics.PreferredBackBufferWidth = Screen.SIZE;
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+
+            //I will implement this later
+            //Window.AllowUserResizing = true;
+            //Window.ClientSizeChanged += OnResize;
+        }
+        public void OnResize(Object sender, EventArgs e)
+        {
+            // Additional code to execute when the user drags the window
+            // or in the case you programmatically change the screen or windows client screen size.
+            // code that might directly change the backbuffer width height calling apply changes.
+            // or passing changes that must occur in other classes or even calling there OnResize methods
+            // though those methods can simply be added to the Windows event caller
+            Screen.SIZE = Math.Min(graphics.PreferredBackBufferHeight, graphics.PreferredBackBufferWidth);
         }
         /// <summary>
         /// Initializes game
         /// </summary>
         protected override void Initialize()
         {
+            
             // TODO: Add your initialization logic here
             gameplay = new GameScreen();
             menu = new MenuScreen();
             inputManager = new InputManager();
             gameplay.Initialize();
             menu.Initialize();
+            //gameplay.Rain.DestroyAllParticles();
+           
             base.Initialize();
         }
         /// <summary>
@@ -85,9 +109,11 @@ namespace Void_Wanderer
             switch (gameState)
             {
                 case GameState.Menu:
+                   
                     menu.Update(gameTime);
                     inputManager.Update(gameTime);
-                    if (menu.PlayButton.Clicked()) { 
+                    if (menu.PlayButton.Clicked()) {
+                            gameplay.ChangeBackground();
                             gameState = GameState.Game;
                             //fading = true;
                             MediaPlayer.IsRepeating = true;
@@ -105,6 +131,7 @@ namespace Void_Wanderer
                     break;
                 case GameState.Game:
                     //currentRunSecs += gameTime.ElapsedGameTime.TotalSeconds;
+                    //It saddens me to have to do this terribly inefficient code
                     
                     if (gameplay.RoomsCleared >= 5 && gameplay.Player.UpdateNow)
                     {
@@ -115,6 +142,9 @@ namespace Void_Wanderer
                         menu.CurrentTime = (int) gameplay.CurrentTime;
                         menu.BestTime = (int)bestRunSecs;
                         //currentRunSecs = 0;
+                        //gameplay.Rain.DestroyAllParticles();
+                        //gameplay.Rain.IsRaining = false;
+                        
                         gameState = GameState.Menu;
                         MediaPlayer.Play(menu.BackgroundMusic);
                     }
@@ -124,9 +154,12 @@ namespace Void_Wanderer
                         //System.Diagnostics.Debug.WriteLine("moo");
                         if (Keyboard.GetState().IsKeyDown(Keys.R))
                         {
-                           
-                            
+
+
                             //currentRunSecs = 0;
+                            //gameplay.Rain.DestroyAllParticles();
+                            //gameplay.Rain.IsRaining = false;
+                            
                             gameState = GameState.Menu;
                             MediaPlayer.Play(menu.BackgroundMusic);
                         }
@@ -142,6 +175,7 @@ namespace Void_Wanderer
         /// <param name="gameTime"></param>
         protected override void Draw(GameTime gameTime)
         {
+            
             if (gameplay.Player.TeleportationCooldown == 0 || gameState != GameState.Game)
             {
                 GraphicsDevice.Clear(Color.Black);
@@ -156,9 +190,11 @@ namespace Void_Wanderer
             switch (gameState)
             {
                 case GameState.Menu:
+                    
                     menu.Draw(gameTime, spriteBatch);
                     break;
                 case GameState.Game:
+                   
                     gameplay.Draw(gameTime, spriteBatch);
                     break;
             }

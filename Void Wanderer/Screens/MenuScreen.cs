@@ -125,12 +125,12 @@ namespace Void_Wanderer
             }
             if(sc == ScrollDirection.Down)
             {
-                offset.Y -= (float)gameTime.ElapsedGameTime.TotalSeconds * 200 * (Screen.SIZE / 800f);
+                offset.Y -= (float)gameTime.ElapsedGameTime.TotalSeconds * 400 * (Screen.SIZE / 800f);
 
             }
             else if(sc == ScrollDirection.Up)
             {
-                offset.Y += (float)gameTime.ElapsedGameTime.TotalSeconds * 200 * (Screen.SIZE / 800f);
+                offset.Y += (float)gameTime.ElapsedGameTime.TotalSeconds * 400 * (Screen.SIZE / 800f);
 
             }
             if (offset.Y > 0 || offset.Y < -800 * (Screen.SIZE / 800f))
@@ -206,27 +206,27 @@ namespace Void_Wanderer
             }
             if (CurrentTime != -1)
             {
-                spriteBatch.DrawString(arial, "Time", new Vector2(40, 690) * (Screen.SIZE / 800f), Color.Silver);
-                spriteBatch.DrawString(arial, "Time", new Vector2(41, 692) * (Screen.SIZE / 800f), lilac);
+                spriteBatch.DrawString(arial, "Time", new Vector2(40, 690) * (Screen.SIZE / 800f), Color.Silver, 0, Vector2.Zero, (Screen.SIZE / 1600f), SpriteEffects.None, 0);
+                spriteBatch.DrawString(arial, "Time", new Vector2(41, 692) * (Screen.SIZE / 800f), lilac, 0, Vector2.Zero, (Screen.SIZE / 1600f),SpriteEffects.None, 0);
                 string csecs = ((CurrentTime % 60)<=9) ? "0"+ (CurrentTime % 60).ToString() : (CurrentTime % 60).ToString();
-                spriteBatch.DrawString(arial, Math.Floor(CurrentTime/60.0).ToString()+":"+csecs, new Vector2(40, 730) * (Screen.SIZE / 800f), Color.Silver);
-                spriteBatch.DrawString(arial, Math.Floor(CurrentTime / 60.0).ToString() + ":" + csecs, new Vector2(41, 732) * (Screen.SIZE / 800f), lilac);
+                spriteBatch.DrawString(arial, Math.Floor(CurrentTime/60.0).ToString()+":"+csecs, new Vector2(40, 730) * (Screen.SIZE / 800f), Color.Silver, 0, Vector2.Zero, (Screen.SIZE / 1600f), SpriteEffects.None, 0);
+                spriteBatch.DrawString(arial, Math.Floor(CurrentTime / 60.0).ToString() + ":" + csecs, new Vector2(41, 732) * (Screen.SIZE / 800f), lilac, 0, Vector2.Zero, (Screen.SIZE / 1600f), SpriteEffects.None, 0);
 
-                spriteBatch.DrawString(arial, "Best", new Vector2(685, 690) * (Screen.SIZE / 800f), Color.Silver);
-                spriteBatch.DrawString(arial, "Best", new Vector2(686, 692) * (Screen.SIZE / 800f), lilac);
+                spriteBatch.DrawString(arial, "Best", new Vector2(685, 690) * (Screen.SIZE / 800f), Color.Silver, 0, Vector2.Zero, (Screen.SIZE / 1600f), SpriteEffects.None, 0);
+                spriteBatch.DrawString(arial, "Best", new Vector2(686, 692) * (Screen.SIZE / 800f), lilac, 0, Vector2.Zero, (Screen.SIZE / 1600f), SpriteEffects.None, 0);
                 string bsecs = ((BestTime % 60) <= 9) ? "0" + (BestTime % 60).ToString() : (BestTime % 60).ToString();
-                spriteBatch.DrawString(arial, Math.Floor(BestTime / 60.0).ToString() + ":" +bsecs, new Vector2(685, 730) * (Screen.SIZE / 800f), Color.Silver);
-                spriteBatch.DrawString(arial, Math.Floor(BestTime / 60.0).ToString() + ":" + bsecs, new Vector2(686, 732) * (Screen.SIZE / 800f), lilac);
+                spriteBatch.DrawString(arial, Math.Floor(BestTime / 60.0).ToString() + ":" +bsecs, new Vector2(685, 730) * (Screen.SIZE / 800f), Color.Silver, 0, Vector2.Zero, (Screen.SIZE / 1600f), SpriteEffects.None, 0);
+                spriteBatch.DrawString(arial, Math.Floor(BestTime / 60.0).ToString() + ":" + bsecs, new Vector2(686, 732) * (Screen.SIZE / 800f), lilac, 0, Vector2.Zero, (Screen.SIZE / 1600f), SpriteEffects.None, 0);
 
             }
             else
             {
-                spriteBatch.DrawString(arial_small, "WASD to move", new Vector2(30+(float)Math.Sin(blinkTimer)*15, 720) * (Screen.SIZE / 800f), Color.Silver);
-                spriteBatch.DrawString(arial_small, "WASD to move", new Vector2(31 + (float)Math.Sin(blinkTimer) * 15, 721) * (Screen.SIZE / 800f), lilac);
-                spriteBatch.DrawString(arial_small, "R to restart", new Vector2(45 + (float)Math.Sin(blinkTimer) * 15, 744) * (Screen.SIZE / 800f), Color.Silver);
-                spriteBatch.DrawString(arial_small, "R to restart", new Vector2(46 + (float)Math.Sin(blinkTimer) * 15, 746) * (Screen.SIZE / 800f), lilac);
-                spriteBatch.DrawString(arial_small, "Click to teleport", new Vector2(615 + (float)Math.Sin(blinkTimer) * 15, 720) * (Screen.SIZE / 800f), Color.Silver);
-                spriteBatch.DrawString(arial_small, "Click to teleport", new Vector2(616 + (float)Math.Sin(blinkTimer) * 15, 721) * (Screen.SIZE / 800f), lilac);
+                spriteBatch.DrawString(arial_small, "WASD to move", new Vector2(30+(float)Math.Sin(blinkTimer)*15, 720) * (Screen.SIZE / 800f), Color.Silver, 0, Vector2.Zero, (Screen.SIZE/1600f),SpriteEffects.None, 0);
+                spriteBatch.DrawString(arial_small, "WASD to move", new Vector2(31 + (float)Math.Sin(blinkTimer) * 15, 721) * (Screen.SIZE / 800f), lilac, 0, Vector2.Zero, (Screen.SIZE / 1600f), SpriteEffects.None, 0);
+                spriteBatch.DrawString(arial_small, "R to restart", new Vector2(45 + (float)Math.Sin(blinkTimer) * 15, 744) * (Screen.SIZE / 800f), Color.Silver, 0, Vector2.Zero, (Screen.SIZE / 1600f), SpriteEffects.None, 0);
+                spriteBatch.DrawString(arial_small, "R to restart", new Vector2(46 + (float)Math.Sin(blinkTimer) * 15, 746) * (Screen.SIZE / 800f), lilac, 0, Vector2.Zero, (Screen.SIZE / 1600f), SpriteEffects.None, 0);
+                spriteBatch.DrawString(arial_small, "Click to teleport", new Vector2(615 + (float)Math.Sin(blinkTimer) * 15, 720) * (Screen.SIZE / 800f), Color.Silver, 0, Vector2.Zero, (Screen.SIZE / 1600f), SpriteEffects.None, 0);
+                spriteBatch.DrawString(arial_small, "Click to teleport", new Vector2(616 + (float)Math.Sin(blinkTimer) * 15, 721) * (Screen.SIZE / 800f), lilac, 0, Vector2.Zero, (Screen.SIZE / 1600f), SpriteEffects.None, 0);
 
             }
             spriteBatch.End();
