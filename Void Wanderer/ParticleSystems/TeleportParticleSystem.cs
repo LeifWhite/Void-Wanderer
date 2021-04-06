@@ -28,8 +28,8 @@ namespace Void_Wanderer.ParticleSystems
         {
             var velocity = _emitter.Velocity;
             var acceleration = new Vector2(RandomHelper.NextFloat(-400,400), RandomHelper.NextFloat(-400, 400));
-            var scale = RandomHelper.NextFloat(0.6f, 1f);
-            var lifetime = RandomHelper.NextFloat(0.3f, 1.3f);
+            var scale = RandomHelper.NextFloat(1f, 2f);
+            var lifetime = RandomHelper.NextFloat(0.3f, 0.9f);
 
             p.Initialize(where+new Vector2(_emitter.Size.X / 2, _emitter.Size.Y/2)+new Vector2(RandomHelper.NextFloat(-_emitter.Size.X/2, _emitter.Size.X/2), RandomHelper.NextFloat(-_emitter.Size.X / 2, _emitter.Size.X / 2)), velocity, acceleration, Color.Purple, lifetime: lifetime, scale: scale);
         }

@@ -43,3 +43,5 @@ Content/New Gloucester Decorations - created by Elena White for making this game
 Content/Stepping - Title "Steppes and Dales" created by Thomas White for making this game, released privately to be used in this game
 
 Content/PixelCircle - created by Leif White for making this game
+
+Content/VW Dirt Speck - created by Leif White for making this game
