@@ -59,7 +59,7 @@ namespace Void_Wanderer
             Color.Sienna,
             Color.ForestGreen
         };
-        private Color[] colorMap2 = new Color[]
+        public Color[] ColorMap2 = new Color[]
         {
             Color.OrangeRed,
             Color.LightGreen,
@@ -73,7 +73,7 @@ namespace Void_Wanderer
             //new gloucester textures
             new List<Rectangle> {new Rectangle(6, 6, 22-6, 65-6), new Rectangle(25, 33, 50 - 25, 66 - 33), new Rectangle(56, 33, 56 - 25, 66 - 33), new Rectangle(6, 70, 20 - 6, 91 - 70) },
             //onyet textures
-            new List<Rectangle> {new Rectangle(5, 6, 35-6, 57-6), new Rectangle(106, 6, 35 - 6, 57 - 6),  new Rectangle(41, 7, 41 - 6, 57 - 6), new Rectangle(74, 6, 35 - 6, 57 - 6), new Rectangle(41, 7, 41 - 6, 57 - 6), new Rectangle(106, 6, 35-6, 57-6) },
+            new List<Rectangle> {new Rectangle(6, 7, 29, 50), new Rectangle(107, 9, 29, 50),  new Rectangle(42, 8, 29, 50), new Rectangle(75, 8, 29, 50), new Rectangle(42, 8, 29, 50), new Rectangle(107, 9, 29, 50) },
 
 
         };
@@ -125,7 +125,7 @@ namespace Void_Wanderer
                     }
                     if (TileMap[i][j] == 'G')
                     {
-                        Block addBlock = new Block(new Vector2(j * 48, i * 48) * (Screen.SIZE / 800f), colorMap2[Bnum], grass);
+                        Block addBlock = new Block(new Vector2(j * 48, i * 48) * (Screen.SIZE / 800f), ColorMap2[Bnum], grass);
                         blockXYdictionary[new Vector2(j, i)] = addBlock;
                         Blocks.Add(addBlock);
 

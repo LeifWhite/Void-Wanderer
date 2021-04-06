@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using Void_Wanderer.Collisions;
 using Microsoft.Xna.Framework.Audio;
+using Void_Wanderer.ParticleSystems;
 
 namespace Void_Wanderer
 {
@@ -16,9 +17,9 @@ namespace Void_Wanderer
         Right
        
     }
-    public class Rho
+    public class Rho : IParticleEmitter
     {
-        
+
         private Texture2D texture;
         private Texture2D hitboxCircle;
         private Texture2D hitboxRectangle;
@@ -45,8 +46,8 @@ namespace Void_Wanderer
         /// How long til can teleport again
         /// </summary>
         public double TeleportationCooldown = 5;
-       
-        private bool switchingLevels= false;
+
+        private bool switchingLevels = false;
         /// <summary>
         /// Changes game room
         /// </summary>
@@ -62,17 +63,26 @@ namespace Void_Wanderer
         public Vector2 Position;
 
         private SoundEffect teleportSound;
-        private BoundingRectangle bounds = new BoundingRectangle(new Vector2(0,0), 29*SIZESCALE, 33*SIZESCALE);
+        private BoundingRectangle bounds = new BoundingRectangle(new Vector2(0, 0), 29 * SIZESCALE, 33 * SIZESCALE);
         /// <summary>
         /// Bounds of Rho
         /// </summary>
         public BoundingRectangle Bounds => bounds;
+
+        Vector2 IParticleEmitter.Position => Position;
+        private Vector2 velocity = Vector2.Zero;
+        Vector2 IParticleEmitter.Velocity => velocity;
+        //private Vector2 size = ;
+        Vector2 IParticleEmitter.Size => new Vector2(bounds.Width, bounds.Height);
+        private TeleportParticleSystem teleport;
         /// <summary>
         /// loads content
         /// </summary>
         /// <param name="content"></param>
         public void LoadContent(ContentManager content)
         {
+            teleport = new TeleportParticleSystem(this);
+            teleport.LoadContent(content);
             texture = content.Load<Texture2D>("VW rho");
             teleportSound = content.Load<SoundEffect>("teleport");
             if (showHitbox)
@@ -89,8 +99,10 @@ namespace Void_Wanderer
         /// <param name="direction"></param>
         public void Update(GameTime gameTime, Vector2 direction)
         {
+            teleport.Update(gameTime);
             if (TeleportationCooldown > 0)
             {
+                
                 TeleportationCooldown -= gameTime.ElapsedGameTime.TotalSeconds;
             }
             if(Position.X+direction.X<0 || Position.X + direction.X > Screen.SIZE - bounds.Width)
@@ -109,7 +121,7 @@ namespace Void_Wanderer
             {
                 currentDirection = Direction.Still;
             }
-
+            velocity = direction;
             Position = Position + direction;
             bounds.X = Position.X;
             bounds.Y = Position.Y;
@@ -124,7 +136,7 @@ namespace Void_Wanderer
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             animationTimer += gameTime.ElapsedGameTime.TotalSeconds;
-            
+            teleport.Draw(gameTime, spriteBatch);
             if (animationTimer > 0.3)
             {
                 animationTimer -= 0.3;
@@ -241,7 +253,7 @@ namespace Void_Wanderer
             Teleporting = true;
             teleportationCoordinates = new Vector2(x, y);
             teleportSound.Play(volume: 0.25f, pitch: -0.4f, pan: 0.0f);
-
+            teleport.SpawnParticles();
         }
         /// <summary>
         /// telepots to new room

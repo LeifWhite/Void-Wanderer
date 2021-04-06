@@ -77,8 +77,13 @@ namespace Void_Wanderer
         /// Rain particle effect
         /// </summary>
         public RainParticleSystem Rain;
-
-        private Game g;
+        /// <summary>
+        /// Landing particle effect
+        /// </summary>
+        public LandingParticleSystem Land;
+        private float saveFallSpeed = 0;
+        private float apex = 0;
+       
         /// <summary>
         /// Initializes
         /// </summary>
@@ -86,7 +91,7 @@ namespace Void_Wanderer
         {
             // TODO: Add your initialization logic here
             Rain = new RainParticleSystem(new Rectangle(0, -20, Screen.SIZE, 10));
-           
+            
            
             //Rain.IsRaining = false;
             projectedLocation = new BoundingRectangle();
@@ -101,6 +106,8 @@ namespace Void_Wanderer
             move = Vector2.Zero;
             gameMap = new GameMap();
             Player = new Rho() { Position = gameMap.RhoStartingPosition };
+            
+            Land = new LandingParticleSystem(Player, Color.White);
             inputManager = new InputManager();
             CurrentTime = 0;
 
@@ -110,6 +117,7 @@ namespace Void_Wanderer
         {
             CurrentBackground = RandomHelper.Next(0, 3);
             gameMap.Bnum = CurrentBackground;
+            Land.DirtColor = gameMap.ColorMap2[gameMap.Bnum];
             if (CurrentBackground == 1)
             {
                 //Rain.IsRaining = true;
@@ -132,6 +140,7 @@ namespace Void_Wanderer
             Player.LoadContent(content);
             gameMap.LoadContent(content);
             Rain.LoadContent(content);
+            Land.LoadContent(content);
             coinPickup = content.Load<SoundEffect>("Pickup_Coin15");
             if(RandomHelper.NextFloat(0,1)>0.5)
                 BackgroundMusic = content.Load<Song>("Gamesong");
@@ -153,6 +162,7 @@ namespace Void_Wanderer
             CurrentTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (CurrentBackground == 1)
                 Rain.Update(gameTime);
+            Land.Update(gameTime);
             if (Player.UpdateNow)
             {
 
@@ -219,7 +229,12 @@ namespace Void_Wanderer
                             }
                             else if (Player.Bounds.Bottom < gameMap.Blocks[i].Bounds.Top)
                             {
+
                                 move.Y = 0;
+                                if (saveFallSpeed != 0)
+                                {
+                                    Land.SpawnParticles(100*(Player.Position.Y-apex)/Screen.SIZE);
+                                }
                                 Player.ForceMove(Player.Position.X, gameMap.Blocks[i].Bounds.Top - Player.Bounds.Height - 0.1f);
                             }
                         }
@@ -240,6 +255,11 @@ namespace Void_Wanderer
                     }
                 }
             }
+            if(saveFallSpeed<=0 && move.Y > 0 || move.Y==0)
+            {
+                apex = Player.Position.Y;
+            }
+            saveFallSpeed = move.Y;
             Player.Update(gameTime, move);
             for (int i = 0; i < gameMap.Coins.Count; i++)
             {
@@ -290,6 +310,7 @@ namespace Void_Wanderer
             Player.Draw(gameTime, spriteBatch);
             if(CurrentBackground ==1 )
                 Rain.Draw(gameTime, spriteBatch);
+            Land.Draw(gameTime, spriteBatch);
             //spriteBatch.DrawString(arial, "Time", new Vector2(40, 390), Color.Silver);
             //spriteBatch.DrawString(arial, "Time", new Vector2(41, 392), Color.White);
             spriteBatch.Draw(greySquare, new Vector2(360, 756) * (Screen.SIZE / 800f), new Rectangle(0, 0, 10, 5), Color.White*0.95f, 0f, Vector2.Zero, 8 * (Screen.SIZE / 800f), SpriteEffects.None, 0f);

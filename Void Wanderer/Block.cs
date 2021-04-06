@@ -31,7 +31,7 @@ namespace Void_Wanderer
         public List<Rectangle> DecorRect;
         public int DecorRectFrame;
         private float animationTime;
-        private float animationSwitch = 2f;
+        private float animationSwitch = 0.8f;
         private BoundingRectangle bounds = new BoundingRectangle(new Vector2(0, 0), 48 * (Screen.SIZE / 800f), 48 * (Screen.SIZE / 800f));
         /// <summary>
         /// Collision boundary
@@ -74,10 +74,11 @@ namespace Void_Wanderer
             {
                 if (DecorRect.Count > 1)
                 {
+                   
                     animationTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
-                    if (animationTime > animationSwitch)
+                    if (animationTime > animationSwitch * 2.5f || (DecorRectFrame != 0 && animationTime > animationSwitch && DecorRectFrame != 4 && DecorRectFrame != 3))
                     {
-                        animationTime -= animationSwitch;
+                        animationTime = 0;
                         DecorRectFrame++;
                         if (DecorRectFrame >= DecorRect.Count)
                         {
@@ -85,7 +86,7 @@ namespace Void_Wanderer
                         }
                     }
                 }
-                spriteBatch.Draw(Decor, new Vector2(Position.X+(24 - DecorRect[DecorRectFrame].Width/2) * (Screen.SIZE / 800f), Position.Y-(DecorRect[DecorRectFrame].Height) * (Screen.SIZE / 800f)), DecorRect[DecorRectFrame], Color.White, 0f, Vector2.Zero, 1f * (Screen.SIZE / 800f), SpriteEffects.None, 0f);
+                spriteBatch.Draw(Decor, new Vector2(Position.X+(24 - DecorRect[DecorRectFrame].Width/2) * (Screen.SIZE / 800f), Position.Y-(DecorRect[DecorRectFrame].Height-2) * (Screen.SIZE / 800f)), DecorRect[DecorRectFrame], Color.White, 0f, Vector2.Zero, 1f * (Screen.SIZE / 800f), SpriteEffects.None, 0f);
             }
             spriteBatch.Draw(texture, Position, source, color, 0f, Vector2.Zero, 1.01f * (Screen.SIZE / 800f), SpriteEffects.None, 0f);
             //spriteBatch.Draw(texture, new Vector2(bounds.X, bounds.Y), new Rectangle(12, 12, 1, 1), new Color(255, 0, 0, 60), 0f, Vector2.Zero, new Vector2(bounds.Width, bounds.Height), SpriteEffects.None, 0f);
