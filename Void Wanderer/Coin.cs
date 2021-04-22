@@ -44,8 +44,9 @@ namespace Void_Wanderer
 
             bounds.Center.X = Position.X;
             bounds.Center.Y = Position.Y;
-
-            source = new Rectangle(41 * 16, 3 * 16, 16, 16);
+            //coin 41, 3
+            //crystal 32, 10
+            source = new Rectangle(32 * 16, 10 * 16, 16, 16);
         }
         /// <summary>
         /// Draws coin with fancy changing colors

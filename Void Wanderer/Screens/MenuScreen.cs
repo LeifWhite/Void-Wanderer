@@ -17,6 +17,12 @@ namespace Void_Wanderer
         Down,
         Still
     }
+    public enum ScrollTarget
+    {
+        Up,
+        Down,
+        Middle
+    }
     /// <summary>
     /// Menu screen
     /// </summary>
@@ -31,6 +37,7 @@ namespace Void_Wanderer
         private Texture2D settingsTexture;
         private Color lilac = new Color(228, 199, 255);
         private ScrollDirection sc = ScrollDirection.Still;
+        private ScrollTarget st = ScrollTarget.Middle;
         /// <summary>
         /// How loud song
         /// </summary>
@@ -44,6 +51,7 @@ namespace Void_Wanderer
         /// </summary>
         public Button PlayButton;
         private Button SettingsButton;
+        private Button StoryButton;
         private Button[] volumeButtons;
         
         private double blinkTimer = 0;
@@ -93,6 +101,8 @@ namespace Void_Wanderer
 
             SettingsButton = new Button(new Vector2(734, 25) * (Screen.SIZE / 800f), settingsTexture, new Rectangle(45 * 16, 16 * 16, 16, 16), 3.5f * (Screen.SIZE / 800f));
             PlayButton = new Button(new Vector2(303, 670) * (Screen.SIZE / 800f), playTexture, 2f * (Screen.SIZE / 800f));
+            StoryButton = new Button(new Vector2(10, 25) * (Screen.SIZE / 800f), settingsTexture, new Rectangle(33 * 16, 15 * 16, 16, 16), 3.5f * (Screen.SIZE / 800f));
+
             volumeButtons = new Button[]
             {
                 new Button( new Vector2(150, 835)*(Screen.SIZE / 800f), settingsTexture, new Rectangle(16 * 37, 16 * 20, 16, 16), 4f*(Screen.SIZE / 800f)),
@@ -112,18 +122,34 @@ namespace Void_Wanderer
             // TODO: Add your update logic here
             PlayButton.Update(gameTime);
             SettingsButton.Update(gameTime);
+            StoryButton.Update(gameTime);
             if (SettingsButton.Clicked())
             {
                 if (offset.Y >= -0.01)
                 {
                     sc = ScrollDirection.Down;
+                    st = ScrollTarget.Down;
                 }
                 else
                 {
                     sc = ScrollDirection.Up;
+                    st = ScrollTarget.Middle;
                 }
             }
-            if(sc == ScrollDirection.Down)
+            if (StoryButton.Clicked())
+            {
+                if (offset.Y <= 0.01)
+                {
+                    sc = ScrollDirection.Up;
+                    st = ScrollTarget.Up;
+                }
+                else
+                {
+                    sc = ScrollDirection.Down;
+                    st = ScrollTarget.Middle;
+                }
+            }
+            if (sc == ScrollDirection.Down)
             {
                 offset.Y -= (float)gameTime.ElapsedGameTime.TotalSeconds * 400 * (Screen.SIZE / 800f);
 
@@ -133,10 +159,18 @@ namespace Void_Wanderer
                 offset.Y += (float)gameTime.ElapsedGameTime.TotalSeconds * 400 * (Screen.SIZE / 800f);
 
             }
-            if (offset.Y > 0 || offset.Y < -800 * (Screen.SIZE / 800f))
+            if (offset.Y > 800 * (Screen.SIZE / 800f) || offset.Y < -800 * (Screen.SIZE / 800f) || 
+                (st == ScrollTarget.Middle&&
+                offset.Y <=  (float)gameTime.ElapsedGameTime.TotalSeconds * 400 * (Screen.SIZE / 800f) &&
+                offset.Y >= -(float)gameTime.ElapsedGameTime.TotalSeconds * 400 * (Screen.SIZE / 800f)))
             {
                 sc = ScrollDirection.Still;
-                MathHelper.Clamp(offset.Y, -800 * (Screen.SIZE / 800f), 0);
+                
+                MathHelper.Clamp(offset.Y, -800 * (Screen.SIZE / 800f), 800*(Screen.SIZE / 800f));
+                if(st == ScrollTarget.Middle)
+                {
+                    offset.Y = 0;
+                }
             }
             PlayButton.MoveButtonBoundary(new Vector2(PlayButton.Position.X, PlayButton.Position.Y) + offset);
             for (int i = 0; i < volumeButtons.Length; i++)
@@ -232,6 +266,7 @@ namespace Void_Wanderer
             spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
             SettingsButton.Draw(gameTime, spriteBatch, MathHelper.PiOver4, lilac);
+            StoryButton.Draw(gameTime, spriteBatch, 0, lilac);
         }
     }
 }

@@ -63,6 +63,7 @@ namespace Void_Wanderer
         public Vector2 Position;
 
         private SoundEffect teleportSound;
+       
         private BoundingRectangle bounds = new BoundingRectangle(new Vector2(0, 0), 29 * SIZESCALE, 33 * SIZESCALE);
         /// <summary>
         /// Bounds of Rho
@@ -85,6 +86,7 @@ namespace Void_Wanderer
             teleport.LoadContent(content);
             texture = content.Load<Texture2D>("VW rho");
             teleportSound = content.Load<SoundEffect>("teleport");
+           
             if (showHitbox)
             {
                 hitboxCircle = content.Load<Texture2D>("VW Circle");

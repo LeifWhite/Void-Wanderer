@@ -60,6 +60,7 @@ namespace Void_Wanderer
         /// Sound effect when you get a coin
         /// </summary>
         private SoundEffect coinPickup;
+        
         /// <summary>
         /// Avenida de los Sueños by Thomas White
         /// </summary>
@@ -141,6 +142,7 @@ namespace Void_Wanderer
             gameMap.LoadContent(content);
             Rain.LoadContent(content);
             Land.LoadContent(content);
+           
             coinPickup = content.Load<SoundEffect>("Pickup_Coin15");
             if(RandomHelper.NextFloat(0,1)>0.5)
                 BackgroundMusic = content.Load<Song>("Gamesong");
@@ -188,6 +190,7 @@ namespace Void_Wanderer
                 if (inputManager.TryJump && move.Y == 0)
                 {
                     move.Y = -JUMPHEIGHT;
+                    
                 }
                 else
                 {
