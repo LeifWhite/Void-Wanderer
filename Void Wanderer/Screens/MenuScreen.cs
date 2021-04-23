@@ -263,6 +263,15 @@ namespace Void_Wanderer
                 spriteBatch.DrawString(arial_small, "Click to teleport", new Vector2(616 + (float)Math.Sin(blinkTimer) * 15, 721) * (Screen.SIZE / 800f), lilac, 0, Vector2.Zero, (Screen.SIZE / 1600f), SpriteEffects.None, 0);
 
             }
+            spriteBatch.DrawString(arial, "Wanderer,", new Vector2(280, -770) * (Screen.SIZE / 800f), Color.Silver, 0, Vector2.Zero, 1.5f*(Screen.SIZE / 1600f), SpriteEffects.None, 0);
+            spriteBatch.DrawString(arial, "Wanderer,", new Vector2(281, -769) * (Screen.SIZE / 800f), lilac, 0, Vector2.Zero, 1.5f*(Screen.SIZE / 1600f), SpriteEffects.None, 0);
+
+            spriteBatch.DrawString(arial, "Gather all the crystals on each world.", new Vector2(110, -640) * (Screen.SIZE / 800f), Color.Silver, 0, Vector2.Zero, (Screen.SIZE / 1600f), SpriteEffects.None, 0);
+            spriteBatch.DrawString(arial, "Gather all the crystals on each world.", new Vector2(111, -639) * (Screen.SIZE / 800f), lilac, 0, Vector2.Zero, (Screen.SIZE / 1600f), SpriteEffects.None, 0);
+
+            spriteBatch.DrawString(arial, "Go quickly.  The Void waits for their crystals.", new Vector2(50, -240) * (Screen.SIZE / 800f), Color.Silver, 0, Vector2.Zero, (Screen.SIZE / 1600f), SpriteEffects.None, 0);
+            spriteBatch.DrawString(arial, "Go quickly.  The Void waits for their crystals.", new Vector2(51, -239) * (Screen.SIZE / 800f), lilac, 0, Vector2.Zero, (Screen.SIZE / 1600f), SpriteEffects.None, 0);
+
             spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
             SettingsButton.Draw(gameTime, spriteBatch, MathHelper.PiOver4, lilac);

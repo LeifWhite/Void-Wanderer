@@ -10,7 +10,7 @@ namespace Void_Wanderer.ParticleSystems
         Rectangle _source;
         public bool IsRaining { get; set; } = true;
         private Vector2 velocity = new Vector2(0, 400);
-        public RainParticleSystem(Rectangle source) : base(7000)
+        public RainParticleSystem(Rectangle source) : base(5000)
         {
             _source = source;
         }

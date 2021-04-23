@@ -100,7 +100,9 @@ namespace Void_Wanderer
         /// <param name="gameTime"></param>
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            inputManager.Update(gameTime);
+            
+            if ((GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || (inputManager.currentKeyboardState.IsKeyDown(Keys.Escape) && !inputManager.priorKeyboardState.IsKeyDown(Keys.Escape)) && gameState == GameState.Menu))
                 Exit();
 
 
@@ -111,7 +113,7 @@ namespace Void_Wanderer
                 case GameState.Menu:
                    
                     menu.Update(gameTime);
-                    inputManager.Update(gameTime);
+                    
                     if (menu.PlayButton.Clicked()) {
                             gameplay.ChangeBackground();
                             gameState = GameState.Game;
@@ -130,8 +132,7 @@ namespace Void_Wanderer
                     }
                     break;
                 case GameState.Game:
-                    //currentRunSecs += gameTime.ElapsedGameTime.TotalSeconds;
-                    //It saddens me to have to do this terribly inefficient code
+                   
                     
                     if (gameplay.RoomsCleared >= 5 && gameplay.Player.UpdateNow)
                     {
@@ -152,10 +153,10 @@ namespace Void_Wanderer
                     {
                         gameplay.Update(gameTime);
                         //System.Diagnostics.Debug.WriteLine("moo");
-                        if (Keyboard.GetState().IsKeyDown(Keys.R))
+                        if (inputManager.currentKeyboardState.IsKeyDown(Keys.R) || inputManager.currentKeyboardState.IsKeyDown(Keys.Escape))
                         {
 
-
+                            
                             //currentRunSecs = 0;
                             //gameplay.Rain.DestroyAllParticles();
                             //gameplay.Rain.IsRaining = false;
