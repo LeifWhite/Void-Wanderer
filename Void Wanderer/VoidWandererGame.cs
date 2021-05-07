@@ -24,6 +24,7 @@ namespace Void_Wanderer
         /// How big is the screen?
         /// </summary>
         public static int SIZE = (int)(Math.Min(System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width, System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height)*0.9);
+        public const float GS = 1.5f;
     }
     public class VoidWandererGame : Game
     {

@@ -29,7 +29,7 @@ namespace Void_Wanderer
         /// <summary>
         /// How big is Rho
         /// </summary>
-        public static float SIZESCALE = 1.4f * (Screen.SIZE / 800f);
+        public static float SIZESCALE = 1.4f * (Screen.SIZE / 800f) * Screen.GS;
 
         /// <summary>
         /// Is Rho teleporting
@@ -63,7 +63,9 @@ namespace Void_Wanderer
         public Vector2 Position;
 
         private SoundEffect teleportSound;
-       
+
+        private Vector2 offset = Vector2.Zero;
+
         private BoundingRectangle bounds = new BoundingRectangle(new Vector2(0, 0), 29 * SIZESCALE, 33 * SIZESCALE);
         /// <summary>
         /// Bounds of Rho
@@ -107,7 +109,7 @@ namespace Void_Wanderer
                 
                 TeleportationCooldown -= gameTime.ElapsedGameTime.TotalSeconds;
             }
-            if(Position.X+direction.X<0 || Position.X + direction.X > Screen.SIZE - bounds.Width)
+            if(Position.X+direction.X<0 || Position.X + direction.X > Screen.SIZE*Screen.GS - bounds.Width/2)
             {
                 direction.X = 0;
             }
@@ -135,10 +137,16 @@ namespace Void_Wanderer
             /// </summary>
             /// <param name="gameTime"></param>
             /// <param name="spriteBatch"></param>
-        public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        public void Draw(GameTime gameTime, SpriteBatch spriteBatch, float offX = 0, float offY = 0)
         {
             animationTimer += gameTime.ElapsedGameTime.TotalSeconds;
-            teleport.Draw(gameTime, spriteBatch);
+            teleport.Draw(gameTime, spriteBatch, -offX, -offY);
+            spriteBatch.End();
+            offset.X = offX;
+            offset.Y = offY;
+            Matrix transform = Matrix.CreateTranslation(offX, offY, 0);
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, transformMatrix: transform);
+
             if (animationTimer > 0.3)
             {
                 animationTimer -= 0.3;
@@ -239,10 +247,10 @@ namespace Void_Wanderer
             }
 
             //BoundingPoint p = new BoundingPoint(destination);
-            Vector2 tmIndexer = new Vector2((float)Math.Floor(destination.X/(48 * (Screen.SIZE / 800f))), (float)Math.Floor(destination.Y/(48 * (Screen.SIZE / 800f))));
+            Vector2 tmIndexer = new Vector2((float)Math.Floor((destination.X-offset.X)/(48 * (Screen.SIZE / 800f) * Screen.GS)), (float)Math.Floor((destination.Y-offset.Y)/(48 * (Screen.SIZE / 800f) * Screen.GS)));
             if (tileMap[(int)tmIndexer.Y][(int)tmIndexer.X]=='A'&&tmIndexer.X<tileMap[0].Length-1)
             {
-                Teleport(tmIndexer.X*48 * (Screen.SIZE / 800f) + 1, tmIndexer.Y*48 * (Screen.SIZE / 800f) + 48 * (Screen.SIZE / 800f) - 33*Rho.SIZESCALE-1);
+                Teleport(tmIndexer.X*48 * (Screen.SIZE / 800f) * Screen.GS + 1, tmIndexer.Y*48 * (Screen.SIZE / 800f) * Screen.GS + 48 * (Screen.SIZE / 800f) * Screen.GS - 33*Rho.SIZESCALE-1);
             }
         }
         /// <summary>

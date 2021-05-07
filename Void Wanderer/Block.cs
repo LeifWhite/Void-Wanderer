@@ -32,7 +32,7 @@ namespace Void_Wanderer
         public int DecorRectFrame;
         private float animationTime;
         private float animationSwitch = 0.8f;
-        private BoundingRectangle bounds = new BoundingRectangle(new Vector2(0, 0), 48 * (Screen.SIZE / 800f), 48 * (Screen.SIZE / 800f));
+        private BoundingRectangle bounds = new BoundingRectangle(new Vector2(0, 0), 48 * (Screen.SIZE / 800f) * Screen.GS, 48 * (Screen.SIZE / 800f) * Screen.GS);
         /// <summary>
         /// Collision boundary
         /// </summary>
@@ -86,9 +86,9 @@ namespace Void_Wanderer
                         }
                     }
                 }
-                spriteBatch.Draw(Decor, new Vector2(Position.X+(24 - DecorRect[DecorRectFrame].Width/2) * (Screen.SIZE / 800f), Position.Y-(DecorRect[DecorRectFrame].Height-2) * (Screen.SIZE / 800f)), DecorRect[DecorRectFrame], Color.White, 0f, Vector2.Zero, 1f * (Screen.SIZE / 800f), SpriteEffects.None, 0f);
+                spriteBatch.Draw(Decor, new Vector2(Position.X+(24 - DecorRect[DecorRectFrame].Width/2) * (Screen.SIZE / 800f) * Screen.GS, Position.Y-(DecorRect[DecorRectFrame].Height-2) * (Screen.SIZE / 800f) * Screen.GS), DecorRect[DecorRectFrame], Color.White, 0f, Vector2.Zero, 1f * (Screen.SIZE / 800f) * Screen.GS, SpriteEffects.None, 0f);
             }
-            spriteBatch.Draw(texture, Position, source, color, 0f, Vector2.Zero, 1.01f * (Screen.SIZE / 800f), SpriteEffects.None, 0f);
+            spriteBatch.Draw(texture, Position, source, color, 0f, Vector2.Zero, 1.01f * (Screen.SIZE / 800f) * Screen.GS, SpriteEffects.None, 0f);
             //spriteBatch.Draw(texture, new Vector2(bounds.X, bounds.Y), new Rectangle(12, 12, 1, 1), new Color(255, 0, 0, 60), 0f, Vector2.Zero, new Vector2(bounds.Width, bounds.Height), SpriteEffects.None, 0f);
 
         }

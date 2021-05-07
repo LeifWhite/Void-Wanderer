@@ -20,7 +20,8 @@ namespace Void_Wanderer
     public class GameScreen 
     {
 
-        
+       
+
         private InputManager inputManager;
         private GameMap gameMap;
         /// <summary>
@@ -42,20 +43,20 @@ namespace Void_Wanderer
         /// <summary>
         /// How high you jump
         /// </summary>
-        private float JUMPHEIGHT = (9.3f * (Screen.SIZE / 800f));
+        private float JUMPHEIGHT = (9.3f * (Screen.SIZE / 800f) * Screen.GS);
         /// <summary>
         /// How high you jump
         /// </summary>
-        private int MOVESPEED = (int)(1 * (Screen.SIZE / 800f));
+        private int MOVESPEED = (int)(1 * (Screen.SIZE / 800f) * Screen.GS);
 
         /// <summary>
         /// How high you jump
         /// </summary>
-        private float GRAVITY = 0.3f * (Screen.SIZE / 800f);
+        private float GRAVITY = 0.3f * (Screen.SIZE / 800f) * Screen.GS;
         /// <summary>
         /// How high you jump
         /// </summary>
-        private float TERMINALVELOCITY = 6.5f * (Screen.SIZE / 800f);
+        private float TERMINALVELOCITY = 6.5f * (Screen.SIZE / 800f) * Screen.GS;
         /// <summary>
         /// Sound effect when you get a coin
         /// </summary>
@@ -84,7 +85,7 @@ namespace Void_Wanderer
         public LandingParticleSystem Land;
         private float saveFallSpeed = 0;
         private float apex = 0;
-       
+        private Vector2 sight = new Vector2(0, 0);
         /// <summary>
         /// Initializes
         /// </summary>
@@ -197,7 +198,7 @@ namespace Void_Wanderer
                     move.Y = MathHelper.Min(move.Y + GRAVITY, TERMINALVELOCITY);
                 }
 
-                projectedLocation.X = MathHelper.Clamp((Player.Position.X + move.X), 0, Screen.SIZE);
+                projectedLocation.X = MathHelper.Clamp((Player.Position.X + move.X), 0, Screen.SIZE*Screen.GS);
                 projectedLocation.Y = Player.Position.Y + move.Y;
                 if (move.X == 0)
                 {
@@ -307,15 +308,27 @@ namespace Void_Wanderer
        /// <param name="spriteBatch"></param>
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-
             spriteBatch.Draw(backgrounds[CurrentBackground], new Vector2(0, 0), null, Color.White, 0f, Vector2.Zero, 4 * (Screen.SIZE / 800f), SpriteEffects.None, 0f);
+            spriteBatch.End();
+            
+            float playerX = MathHelper.Clamp(Player.Position.X, Screen.SIZE / 2, gameMap.TileMap[0].Length * 48 *(Screen.SIZE/800f)*Screen.GS- Screen.SIZE / 2);
+            float playerY = MathHelper.Clamp(Player.Position.Y, Screen.SIZE / 2, gameMap.TileMap[0].Length * 48 * (Screen.SIZE / 800f) * Screen.GS- Screen.SIZE / 2);
+            sight.X =  playerX - Screen.SIZE / 2;
+            sight.Y =  playerY - Screen.SIZE / 2;
+            Matrix transform = Matrix.CreateTranslation(-sight.X, -sight.Y, 0);
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, transformMatrix: transform);
+
             gameMap.Draw(gameTime, spriteBatch);
-            Player.Draw(gameTime, spriteBatch);
-            if(CurrentBackground ==1 )
+            Player.Draw(gameTime, spriteBatch, -sight.X, -sight.Y);
+            if (CurrentBackground ==1 )
                 Rain.Draw(gameTime, spriteBatch);
-            Land.Draw(gameTime, spriteBatch);
+            Land.Draw(gameTime, spriteBatch, sight.X, sight.Y);
             //spriteBatch.DrawString(arial, "Time", new Vector2(40, 390), Color.Silver);
             //spriteBatch.DrawString(arial, "Time", new Vector2(41, 392), Color.White);
+            spriteBatch.End();
+           
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
+            
             spriteBatch.Draw(greySquare, new Vector2(360, 756) * (Screen.SIZE / 800f), new Rectangle(0, 0, 10, 5), Color.White*0.95f, 0f, Vector2.Zero, 8 * (Screen.SIZE / 800f), SpriteEffects.None, 0f);
             if(Player.TeleportationCooldown>0)
             spriteBatch.Draw(greySquare, new Vector2(0, 790) * (Screen.SIZE / 800f), new Rectangle(0, 0, 10, 10), Color.Purple * 0.95f, 0f, Vector2.Zero, 80*(float)(Player.TeleportationCooldown/Player.MAX_TELEPORTATION_COOLDOWN) * (Screen.SIZE / 800f), SpriteEffects.None, 0f);

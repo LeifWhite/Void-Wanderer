@@ -18,7 +18,7 @@ namespace Void_Wanderer
         /// </summary>
         public Vector2 Position;
         
-        private BoundingCircle bounds = new BoundingCircle(new Vector2(0, 0), 18 * (Screen.SIZE / 800f));
+        private BoundingCircle bounds = new BoundingCircle(new Vector2(0, 0), 18 * (Screen.SIZE / 800f) * Screen.GS);
         /// <summary>
         /// Coin collision boundaries
         /// </summary>
@@ -40,7 +40,7 @@ namespace Void_Wanderer
             coinColor = cc;
             Random rand = new Random();
             coinTime = rand.NextDouble()*20;
-            Position = position+new Vector2(18 * (Screen.SIZE / 800f), 18 * (Screen.SIZE / 800f));
+            Position = position+new Vector2(18 * (Screen.SIZE / 800f) * Screen.GS, 18 * (Screen.SIZE / 800f) * Screen.GS);
 
             bounds.Center.X = Position.X;
             bounds.Center.Y = Position.Y;
@@ -59,8 +59,8 @@ namespace Void_Wanderer
             coinTime += gameTime.ElapsedGameTime.TotalSeconds;
             if (!IsCollected)
             {
-                spriteBatch.Draw(texture, Position, source, Color.Black, 0f, new Vector2(8, 8), new Vector2((float)Math.Abs(Math.Sin(coinTime)) * 2.2f, 2.2f) * (Screen.SIZE / 800f), SpriteEffects.None, 0f);
-                spriteBatch.Draw(texture, Position, source, coinColor, 0f, new Vector2(8, 8), new Vector2((float)Math.Abs(Math.Sin(coinTime)) * 2, 2) * (Screen.SIZE / 800f), SpriteEffects.None, 0f);
+                spriteBatch.Draw(texture, Position, source, Color.Black, 0f, new Vector2(8, 8), new Vector2((float)Math.Abs(Math.Sin(coinTime)) * 2.2f, 2.2f) * (Screen.SIZE / 800f) * Screen.GS, SpriteEffects.None, 0f);
+                spriteBatch.Draw(texture, Position, source, coinColor, 0f, new Vector2(8, 8), new Vector2((float)Math.Abs(Math.Sin(coinTime)) * 2, 2) * (Screen.SIZE / 800f) * Screen.GS, SpriteEffects.None, 0f);
             }
         }
 

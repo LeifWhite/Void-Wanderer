@@ -125,7 +125,7 @@ namespace Void_Wanderer
                     }
                     if (TileMap[i][j] == 'G')
                     {
-                        Block addBlock = new Block(new Vector2(j * 48, i * 48) * (Screen.SIZE / 800f), ColorMap2[Bnum], grass);
+                        Block addBlock = new Block(new Vector2(j * 48, i * 48) * (Screen.SIZE / 800f) * Screen.GS, ColorMap2[Bnum], grass);
                         blockXYdictionary[new Vector2(j, i)] = addBlock;
                         Blocks.Add(addBlock);
 
@@ -145,7 +145,7 @@ namespace Void_Wanderer
                 r = rand.NextDouble();
                 if (r < (float)(CoinCount - Coins.Count) / (possibleCoinLocations.Count - i))
                 {
-                    Coins.Add(new Coin(((possibleCoinLocations[i]) *48 + new Vector2(6 , 6)) * (Screen.SIZE / 800f), colorMap[Math.Min(room, 4)]));
+                    Coins.Add(new Coin(((possibleCoinLocations[i]) *48 + new Vector2(6 , 6)) * (Screen.SIZE / 800f) * Screen.GS, colorMap[Math.Min(room, 4)]));
                     coinLocations.Add(possibleCoinLocations[i]);
                 }
 
@@ -285,7 +285,7 @@ namespace Void_Wanderer
                  }
             }
             int ran = rand.Next(possibleCoinLocations.Count);
-            RhoStartingPosition = (possibleCoinLocations[ran]) *48* (Screen.SIZE / 800f);
+            RhoStartingPosition = (possibleCoinLocations[ran]) *48* (Screen.SIZE / 800f)*Screen.GS;
             possibleCoinLocations.RemoveAt(ran);
             
         }

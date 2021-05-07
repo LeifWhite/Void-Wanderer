@@ -218,13 +218,14 @@ namespace Void_Wanderer.ParticleSystems
         /// Overriden from DrawableGameComponent, Draw will use the static 
         /// SpriteBatch to render all of the active particles.
         /// </summary>
-        public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch, float offX=0, float offY=0)
         {
 
             // tell sprite batch to begin, using the spriteBlendMode specified in
             // initializeConstants
             spriteBatch.End();
-            spriteBatch.Begin(blendState: blendState);
+            Matrix transform = Matrix.CreateTranslation(-offX, -offY, 0);
+            spriteBatch.Begin(blendState: blendState, transformMatrix: transform);
 
             foreach (Particle p in particles)
             {
