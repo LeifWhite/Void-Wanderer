@@ -24,3 +24,6 @@ Done with Game 4 section!
 Teleport Particle effect suggested by Eric Gregersen
 
 Done with Game 5 section!
+
+Done with Game 6 section!
+I plan to continue this game over the summer.
